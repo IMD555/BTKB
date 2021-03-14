@@ -1,0 +1,33 @@
+
+Psect Usage Map:
+
+ Psect      | Contents                   | Memory Range      | Size
+------------|----------------------------|-------------------|-------------
+ init       | Initialization code        | 000000h - 000003h |   4 bytes  
+ _high_isr_ |                            | 000008h - 00000Dh |   6 bytes  
+ _low_isr_t |                            | 000018h - 00001Dh |   6 bytes  
+ text0      | Program and library code   | 00001Eh - 0003ABh | 910 bytes  
+ text9      | Program and library code   | 0003ACh - 000479h | 206 bytes  
+ text8      | Program and library code   | 00047Ah - 000521h | 168 bytes  
+ text6      | Program and library code   | 000522h - 0005BFh | 158 bytes  
+ text7      | Program and library code   | 0005C0h - 000643h | 132 bytes  
+ cinit      |                            | 000644h - 0006A5h |  98 bytes  
+ idataBANK0 |                            | 0006A6h - 000702h |  93 bytes  
+ text1      | Program and library code   | 000704h - 00072Dh |  42 bytes  
+ text10     | Program and library code   | 00072Eh - 000757h |  42 bytes  
+ idataCOMRA |                            | 000758h - 00077Fh |  40 bytes  
+ text2      | Program and library code   | 000780h - 0007A7h |  40 bytes  
+ text3      | Program and library code   | 0007A8h - 0007C1h |  26 bytes  
+------------|----------------------------|-------------------|-------------
+ dataCOMRAM |                            | 000001h - 000028h |  40 bytes  
+ cstackCOMR |                            | 000029h - 000049h |  33 bytes  
+ bssCOMRAM  |                            | 00004Ah - 000057h |  14 bytes  
+            |                            |                   |             
+ dataBANK0  |                            | 000060h - 0000BCh |  93 bytes  
+ bssBANK0   |                            | 0000BDh - 0000CCh |  16 bytes  
+------------|----------------------------|-------------------|-------------
+ config     | Device configuration words | 300000h - 30000Bh |  12 bytes  
+------------|----------------------------|-------------------|-------------
+ idloc      | User ID registers          | 200000h - 20000Fh |  16 bytes  
+------------|----------------------------|-------------------|-------------
+

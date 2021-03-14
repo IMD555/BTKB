@@ -1,0 +1,1466 @@
+Disassembly Listing for BTKB_Bootloader
+Generated From:
+C:/Users/imada/OneDrive/Documents/BTKB/Software/BTKB_Bootloader.X/dist/default/production/BTKB_Bootloader.X.production.elf
+Oct 26, 2018 12:31:06 PM
+
+---  C:/Users/imada/OneDrive/Documents/BTKB/Software/BTKB_Bootloader.X/main.c  --------------------------
+1:             #include <xc.h>
+2:             
+3:             #define	USB_CBUS0		RF6
+4:             #define	USB_CBUS1		RF7
+5:             #define	USB_CBUS3		RF5
+6:             #define	USB_PWREN		!USB_CBUS0	//PWREN#
+7:             #define	USB_SLEEP		!USB_CBUS1	//SLEEP#
+8:             #define	USB_BCD_CHGR	USB_CBUS3	//BCD_Charger
+9:             #define USB_Host		(USB_PWREN&&!USB_SLEEP&&!USB_BCD_CHGR)
+10:            #define	USB_SetReady(x)	(LATF0=x)
+11:            #define	USB_Ready		RF0
+12:            
+13:            #define  NEW_RESET_VECTOR            0x800
+14:            #define  NEW_INTERRUPT_VECTOR_HIGH   0x808
+15:            #define  NEW_INTERRUPT_VECTOR_LOW    0x818
+16:            
+17:            #define _str(x)  #x
+18:            #define str(x)  _str(x)
+19:            
+20:            #define LED		LATD7
+21:            
+22:            #define	PAGE(x)	(x&0x00ffff80UL)
+23:            
+24:            char hello[] = "\r\nHello!\r\nsend .hex file\r\n";
+25:            char OK[] = "\r\nSUCCESSFUL!";
+26:            char error1[] = "Error:";
+27:            char error2[] = "\r\nPush \'q\' to reset";
+28:            
+29:            char error_cts[] = "CTS&RTS";
+30:            char error_colon[] = "\':\'missing";
+31:            char error_checksum[] = "CheckSum";
+32:            char error_EOF[] = "EOF";
+33:            char error_address[] = "Address";
+34:            char error_command[] = "Command";
+35:            char error_dataSize[] = "Size";
+36:            char error_invalidChar[] = "InvalidChar";
+37:            
+38:            
+39:            //const unsigned char hex[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+40:            
+41:            //void FLASH_WriteBlock(unsigned short long writeAddrStart, unsigned short long writeAddrEnd, unsigned char* flashWrBufPtr);
+42:            void FLASH_WriteBlock(__uint24 writeAddrStart, unsigned char size, unsigned char* flashWrBufPtr);
+43:            //void FLASH_WriteBlock2(unsigned short long writeAddrStart, unsigned short long writeAddrEnd, unsigned char* flashWrBufPtr);
+44:            void FLASH_WriteBlock2(__uint24 writeAddrStart, unsigned char size, unsigned char* flashWrBufPtr);
+45:            unsigned char hexToInt8(void);
+46:            void SendCharUSB(unsigned char d);
+47:            void showError(unsigned char* t);
+48:            void showText(unsigned char* t);
+49:            //void showHex2(unsigned char n);
+50:            //void showHex4(unsigned short n);
+51:            void high_isr (void) __at(0x08);
+52:            void low_isr (void) __at(0x18);
+53:            
+54:            unsigned char i = 0;
+55:            unsigned char t[2];
+56:            unsigned char w;
+57:            
+58:            unsigned char s; //size
+59:            __uint24 a = 0; //address
+60:            unsigned char c; //command
+61:            unsigned char d[16]; //data
+62:            unsigned char cs; //checksum
+63:            
+64:            unsigned char error = 0;
+65:            
+66:            __uint24 lastErasedPage = 0;
+67:            
+68:            void main(void)
+69:            {
+70:            	//Reset RN42
+71:            	TRISAbits.TRISA4 = 0;
+001E  9881     BCF TRISA, 4, ACCESS
+72:            
+73:            	//Check bootloader mode
+74:            	ANSELD = 0;
+0020  0E00     MOVLW 0x0
+0022  010E     MOVLB 0xE
+0024  6FA7     MOVWF 0xA7, BANKED
+75:            	WPUD = 0x60;
+0026  0E60     MOVLW 0x60
+0028  6FA6     MOVWF 0xA6, BANKED
+76:            	Nop();
+002A  F000     NOP
+77:            
+78:            	if (RD6 ^ RD5)
+002C  AA8C     BTFSS PORTD, 5, ACCESS
+002E  D002     BRA 0x34
+0030  0E01     MOVLW 0x1
+0032  D001     BRA 0x36
+0034  0E00     MOVLW 0x0
+0036  6E43     MOVWF 0x43, ACCESS
+0038  AC8C     BTFSS PORTD, 6, ACCESS
+003A  D002     BRA 0x40
+003C  0E01     MOVLW 0x1
+003E  D001     BRA 0x42
+0040  0E00     MOVLW 0x0
+0042  1A43     XORWF 0x43, F, ACCESS
+0044  A4D8     BTFSS STATUS, 2, ACCESS
+79:            	{
+80:            		//Go to application
+81:            		asm("goto  " str(NEW_RESET_VECTOR));
+0046  EF00     GOTO 0x800
+0048  F004     NOP
+82:            	}
+83:            
+84:            	//LED ON
+85:            	TRISDbits.TRISD7 = 0;
+004A  9E84     BCF TRISD, 7, ACCESS
+86:            	LED = 1;
+004C  8E7C     BSF LATD, 7, ACCESS
+87:            
+88:            	//PAUSE FT230X
+89:            	ODCONFbits.ODCF0 = 1;
+004E  010E     MOVLB 0xE
+0050  81B2     BSF 0xB2, 0, BANKED
+90:            	TRISFbits.TRISF0 = 0;
+0052  9086     BCF TRISF, 0, ACCESS
+91:            	ANSELFbits.ANSELF0 = 0;
+0054  91B4     BCF error_checksum, 0, BANKED
+92:            	USB_SetReady(0);
+0056  907E     BCF LATF, 0, ACCESS
+93:            
+94:            	// Initialize the device to bootloader
+95:            	// NOSC HFINTOSC; NDIV 1; 
+96:            	OSCCON1 = 0x60;
+0058  0E60     MOVLW 0x60
+005A  6F43     MOVWF 0x43, BANKED
+97:            	// HFFRQ 64_MHz; 
+98:            	OSCFRQ = 0x08;
+005C  0E08     MOVLW 0x8
+005E  6F49     MOVWF p, BANKED
+99:            
+100:           	ANSELF &= 0x1f;
+0060  0E1F     MOVLW 0x1F
+0062  17B4     ANDWF error_checksum, F, BANKED
+101:           
+102:           	ANSELGbits.ANSELG2 = 0;
+0064  95BC     BCF 0xBC, 2, BANKED
+103:           	RX5PPSbits.RX5PPS = 0x32; //RG2->EUSART5:RX5;
+0066  9117     BCF 0x17, 0, BANKED
+0068  8317     BSF 0x17, 1, BANKED
+006A  9517     BCF 0x17, 2, BANKED
+006C  9717     BCF 0x17, 3, BANKED
+006E  8917     BSF 0x17, 4, BANKED
+0070  8B17     BSF 0x17, 5, BANKED
+104:           
+105:           	// ABDOVF no_overflow; SCKP Inverted; BRG16 16bit_generator; WUE disabled; ABDEN disabled; 
+106:           	BAUD5CON = 0x18;
+0072  0E18     MOVLW 0x18
+0074  6FE2     MOVWF 0xE2, BANKED
+107:           	// SPEN enabled; RX9 8-bit; CREN enabled; ADDEN disabled; SREN disabled; 
+108:           	RC5STA = 0x90;
+0076  0E90     MOVLW 0x90
+0078  6FE0     MOVWF 0xE0, BANKED
+109:           	// TX9 8-bit; TX9D 0; SENDB sync_break_complete; TXEN enabled; SYNC asynchronous; BRGH hi_speed; CSRC slave; 
+110:           	TX5STA = 0x24;
+007A  0E24     MOVLW 0x24
+007C  6FE1     MOVWF 0xE1, BANKED
+111:           	// SP5BRGL	115.2kbps
+112:           	SP5BRGL = 137;
+007E  0E89     MOVLW 0x89
+0080  6FDE     MOVWF 0xDE, BANKED
+113:           	//	// SP5BRGH
+114:           	//	SP5BRGH = 0;
+115:           
+116:           	RG3PPS = 0x14; //RG3->EUSART5:TX5;
+0082  0E14     MOVLW 0x14
+0084  6F85     MOVWF 0x85, BANKED
+117:           	TRISGbits.TRISG3 = 0;
+0086  9687     BCF TRISG, 3, ACCESS
+118:           
+119:           	//Start receiving
+120:           	USB_SetReady(1);
+0088  807E     BSF LATF, 0, ACCESS
+121:           
+122:           	showText(hello);
+008A  0E60     MOVLW 0x60
+008C  6E2A     MOVWF t, ACCESS
+008E  0E00     MOVLW 0x0
+0090  6E2B     MOVWF i, ACCESS
+0092  ECC0     CALL 0x780, 0
+0094  F003     NOP
+123:           
+124:           	while (1)
+125:           	{
+126:           		if (PIR4bits.RC5IF)
+0096  010E     MOVLB 0xE
+0098  AB37     BTFSS writeAddrStart, 5, BANKED
+009A  D7FD     BRA 0x96
+127:           		{
+128:           			LED = !LED;
+009C  BE7C     BTFSC LATD, 7, ACCESS
+009E  D002     BRA 0xA4
+00A0  8E7C     BSF LATD, 7, ACCESS
+00A2  D001     BRA 0xA6
+00A4  9E7C     BCF LATD, 7, ACCESS
+129:           
+130:           			if (RC5STAbits.OERR)
+00A6  010E     MOVLB 0xE
+00A8  A3E0     BTFSS 0xE0, 1, BANKED
+00AA  D007     BRA 0xBA
+131:           			{
+132:           				showError(error_cts);
+00AC  0E11     MOVLW 0x11
+00AE  6E2C     MOVWF t, ACCESS
+00B0  0E00     MOVLW 0x0
+00B2  6E2D     MOVWF counter, ACCESS
+00B4  EC82     CALL 0x704, 0
+00B6  F003     NOP
+133:           
+134:           				//				RC5STAbits.CREN = 0;
+135:           				//				RC5STAbits.CREN = 1;
+136:           			}
+00B8  D7EE     BRA 0x96
+137:           			else
+138:           			{
+139:           				w = RC5REG;
+00BA  CEDC     MOVFF RC5REG, w
+00BC  F056     NOP
+140:           
+141:           				//Pause receiving
+142:           				USB_SetReady(0);
+00BE  907E     BCF LATF, 0, ACCESS
+143:           
+144:           				if (error)
+00C0  5052     MOVF error, W, ACCESS
+00C2  B4D8     BTFSC STATUS, 2, ACCESS
+00C4  D006     BRA 0xD2
+145:           				{
+146:           					if (w == 'q')
+00C6  0E71     MOVLW 0x71
+00C8  1856     XORWF w, W, ACCESS
+00CA  A4D8     BTFSS STATUS, 2, ACCESS
+00CC  D16A     BRA 0x3A2
+147:           					{
+148:           						//						error = 0;
+149:           						Reset();
+00CE  00FF     RESET
+150:           					}
+151:           				}
+00D0  D168     BRA 0x3A2
+152:           				else
+153:           				{
+154:           					if (w == ':' || ('0' <= w && w <= '9') || ('A' <= w && w <= 'F'))
+00D2  0E3A     MOVLW 0x3A
+00D4  1856     XORWF w, W, ACCESS
+00D6  B4D8     BTFSC STATUS, 2, ACCESS
+00D8  D00C     BRA 0xF2
+00DA  0E2F     MOVLW 0x2F
+00DC  6456     CPFSGT w, ACCESS
+00DE  D003     BRA 0xE6
+00E0  0E39     MOVLW 0x39
+00E2  6456     CPFSGT w, ACCESS
+00E4  D006     BRA 0xF2
+00E6  0E40     MOVLW 0x40
+00E8  6456     CPFSGT w, ACCESS
+00EA  D14D     BRA 0x386
+00EC  0E47     MOVLW 0x47
+00EE  6056     CPFSLT w, ACCESS
+00F0  D14A     BRA 0x386
+155:           					{
+156:           						t[!(i & 1)] = w;
+00F2  B057     BTFSC i, 0, ACCESS
+00F4  D002     BRA 0xFA
+00F6  0E01     MOVLW 0x1
+00F8  D001     BRA 0xFC
+00FA  0E00     MOVLW 0x0
+00FC  6E43     MOVWF 0x43, ACCESS
+00FE  6A44     CLRF 0x44, ACCESS
+0100  0E50     MOVLW 0x50
+0102  2443     ADDWF 0x43, W, ACCESS
+0104  6ED9     MOVWF FSR2, ACCESS
+0106  0E00     MOVLW 0x0
+0108  2044     ADDWFC 0x44, W, ACCESS
+010A  6EDA     MOVWF FSR2H, ACCESS
+010C  C056     MOVFF w, INDF2
+010E  FFDF     NOP
+157:           						if (i == 0)
+0110  5057     MOVF i, W, ACCESS
+0112  A4D8     BTFSS STATUS, 2, ACCESS
+0114  D00D     BRA 0x130
+158:           						{
+159:           							//Start
+160:           							cs = 0;
+0116  0E00     MOVLW 0x0
+0118  6E53     MOVWF cs, ACCESS
+161:           							if (w != ':')
+011A  0E3A     MOVLW 0x3A
+011C  1856     XORWF w, W, ACCESS
+011E  B4D8     BTFSC STATUS, 2, ACCESS
+0120  D130     BRA 0x382
+162:           							{
+163:           								showError(error_colon);
+0122  0EA9     MOVLW 0xA9
+0124  6E2C     MOVWF t, ACCESS
+0126  0E00     MOVLW 0x0
+0128  6E2D     MOVWF counter, ACCESS
+012A  EC82     CALL 0x704, 0
+012C  F003     NOP
+164:           							}
+165:           						}
+012E  D129     BRA 0x382
+166:           						else if (i == 2)
+0130  0E02     MOVLW 0x2
+0132  1857     XORWF i, W, ACCESS
+0134  A4D8     BTFSS STATUS, 2, ACCESS
+0136  D004     BRA 0x140
+167:           						{
+168:           							//data size
+169:           							s = hexToInt8();
+0138  EC91     CALL 0x522, 0
+013A  F002     NOP
+013C  6E55     MOVWF s, ACCESS
+170:           							//												showText("S");
+171:           						}
+013E  D121     BRA 0x382
+172:           						else if (i == 4)
+0140  0E04     MOVLW 0x4
+0142  1857     XORWF i, W, ACCESS
+0144  A4D8     BTFSS STATUS, 2, ACCESS
+0146  D00F     BRA 0x166
+173:           						{
+174:           							//address high
+175:           							a = a & 0xffff00ffUL | ((unsigned long) hexToInt8() << 8);
+0148  EC91     CALL 0x522, 0
+014A  F002     NOP
+014C  6E43     MOVWF 0x43, ACCESS
+014E  6A44     CLRF 0x44, ACCESS
+0150  6A45     CLRF 0x45, ACCESS
+0152  C044     MOVFF 0x44, 0x45
+0154  F045     NOP
+0156  C043     MOVFF 0x43, 0x44
+0158  F044     NOP
+015A  6A43     CLRF 0x43, ACCESS
+015C  0EFF     MOVLW 0xFF
+015E  144D     ANDWF a, W, ACCESS
+0160  6E46     MOVWF 0x46, ACCESS
+0162  0E00     MOVLW 0x0
+0164  D00D     BRA 0x180
+176:           							//												showText("A");
+177:           						}
+178:           						else if (i == 6)
+0166  0E06     MOVLW 0x6
+0168  1857     XORWF i, W, ACCESS
+016A  A4D8     BTFSS STATUS, 2, ACCESS
+016C  D018     BRA 0x19E
+179:           						{
+180:           							//address low
+181:           							a = a & 0xffffff00UL | hexToInt8();
+016E  EC91     CALL 0x522, 0
+0170  F002     NOP
+0172  6E43     MOVWF 0x43, ACCESS
+0174  6A44     CLRF 0x44, ACCESS
+0176  6A45     CLRF 0x45, ACCESS
+0178  0E00     MOVLW 0x0
+017A  144D     ANDWF a, W, ACCESS
+017C  6E46     MOVWF 0x46, ACCESS
+017E  0EFF     MOVLW 0xFF
+0180  144E     ANDWF 0x4E, W, ACCESS
+0182  6E47     MOVWF 0x47, ACCESS
+0184  0EFF     MOVLW 0xFF
+0186  144F     ANDWF 0x4F, W, ACCESS
+0188  6E48     MOVWF 0x48, ACCESS
+018A  5043     MOVF 0x43, W, ACCESS
+018C  1046     IORWF 0x46, W, ACCESS
+018E  6E4D     MOVWF a, ACCESS
+0190  5044     MOVF 0x44, W, ACCESS
+0192  1047     IORWF 0x47, W, ACCESS
+0194  6E4E     MOVWF 0x4E, ACCESS
+0196  5045     MOVF 0x45, W, ACCESS
+0198  1048     IORWF 0x48, W, ACCESS
+019A  6E4F     MOVWF 0x4F, ACCESS
+182:           							//												showText("a");
+183:           						}
+019C  D0F2     BRA 0x382
+184:           						else if (i == 8)
+019E  0E08     MOVLW 0x8
+01A0  1857     XORWF i, W, ACCESS
+01A2  A4D8     BTFSS STATUS, 2, ACCESS
+01A4  D004     BRA 0x1AE
+185:           						{
+186:           							//command
+187:           							c = hexToInt8();
+01A6  EC91     CALL 0x522, 0
+01A8  F002     NOP
+01AA  6E54     MOVWF c, ACCESS
+188:           							//												showText("C");
+189:           						}
+01AC  D0EA     BRA 0x382
+190:           						else if (i == (s + 5) * 2)
+01AE  5057     MOVF i, W, ACCESS
+01B0  6E43     MOVWF 0x43, ACCESS
+01B2  6A44     CLRF 0x44, ACCESS
+01B4  5055     MOVF s, W, ACCESS
+01B6  6E45     MOVWF 0x45, ACCESS
+01B8  6A46     CLRF 0x46, ACCESS
+01BA  90D8     BCF STATUS, 0, ACCESS
+01BC  3645     RLCF 0x45, F, ACCESS
+01BE  3646     RLCF 0x46, F, ACCESS
+01C0  0E0A     MOVLW 0xA
+01C2  2645     ADDWF 0x45, F, ACCESS
+01C4  0E00     MOVLW 0x0
+01C6  2246     ADDWFC 0x46, F, ACCESS
+01C8  5043     MOVF 0x43, W, ACCESS
+01CA  1845     XORWF 0x45, W, ACCESS
+01CC  E103     BNZ 0x1D4
+01CE  5044     MOVF 0x44, W, ACCESS
+01D0  1846     XORWF 0x46, W, ACCESS
+01D2  A4D8     BTFSS STATUS, 2, ACCESS
+01D4  D097     BRA 0x304
+191:           						{
+192:           							//Checksum calc
+193:           							unsigned char p = 0;
+01D6  0E00     MOVLW 0x0
+01D8  6E49     MOVWF p, ACCESS
+194:           
+195:           							cs = s + (a >> 8)+(unsigned char) a + c;
+01DA  C04D     MOVFF a, 0x43
+01DC  F043     NOP
+01DE  C04E     MOVFF 0x4E, 0x44
+01E0  F044     NOP
+01E2  C04F     MOVFF 0x4F, 0x45
+01E4  F045     NOP
+01E6  C044     MOVFF 0x44, 0x43
+01E8  F043     NOP
+01EA  C045     MOVFF 0x45, 0x44
+01EC  F044     NOP
+01EE  6A45     CLRF 0x45, ACCESS
+01F0  5043     MOVF 0x43, W, ACCESS
+01F2  2455     ADDWF s, W, ACCESS
+01F4  244D     ADDWF a, W, ACCESS
+01F6  2454     ADDWF c, W, ACCESS
+01F8  6E53     MOVWF cs, ACCESS
+196:           							for (p = 0; p < s; p++)
+01FA  0E00     MOVLW 0x0
+01FC  6E49     MOVWF p, ACCESS
+01FE  D00B     BRA 0x216
+197:           							{
+198:           								cs += d[p];
+0200  5049     MOVF p, W, ACCESS
+0202  0D01     MULLW 0x1
+0204  0EBD     MOVLW 0xBD
+0206  24F3     ADDWF PROD, W, ACCESS
+0208  6ED9     MOVWF FSR2, ACCESS
+020A  0E00     MOVLW 0x0
+020C  20F4     ADDWFC PRODH, W, ACCESS
+020E  6EDA     MOVWF FSR2H, ACCESS
+0210  50DF     MOVF INDF2, W, ACCESS
+0212  2653     ADDWF cs, F, ACCESS
+199:           							}
+0214  2A49     INCF p, F, ACCESS
+0216  5055     MOVF s, W, ACCESS
+0218  5C49     SUBWF p, W, ACCESS
+021A  A0D8     BTFSS STATUS, 0, ACCESS
+021C  D7F1     BRA 0x200
+200:           							cs = -cs;
+021E  6C53     NEGF cs, ACCESS
+201:           
+202:           							if (cs != hexToInt8())
+0220  EC91     CALL 0x522, 0
+0222  F002     NOP
+0224  1853     XORWF cs, W, ACCESS
+0226  B4D8     BTFSC STATUS, 2, ACCESS
+0228  D007     BRA 0x238
+203:           							{
+204:           								//								showHex2(cs);
+205:           								//								showHex2(hexToInt8(t));
+206:           								showError(error_checksum);
+022A  0EB4     MOVLW 0xB4
+022C  6E2C     MOVWF t, ACCESS
+022E  0E00     MOVLW 0x0
+0230  6E2D     MOVWF counter, ACCESS
+0232  EC82     CALL 0x704, 0
+0234  F003     NOP
+207:           							}
+0236  D064     BRA 0x300
+208:           							else
+209:           							{
+210:           								if (c == 0)
+0238  5054     MOVF c, W, ACCESS
+023A  A4D8     BTFSS STATUS, 2, ACCESS
+023C  D016     BRA 0x26A
+211:           								{
+212:           									if (a < 0x00020000UL)
+023E  0E02     MOVLW 0x2
+0240  5C4F     SUBWF 0x4F, W, ACCESS
+0242  B0D8     BTFSC STATUS, 0, ACCESS
+0244  D00E     BRA 0x262
+213:           									{
+214:           										FLASH_WriteBlock(a, s, d);
+0246  C04D     MOVFF a, writeAddrStart
+0248  F037     NOP
+024A  C04E     MOVFF 0x4E, 0x38
+024C  F038     NOP
+024E  C04F     MOVFF 0x4F, 0x39
+0250  F039     NOP
+0252  C055     MOVFF s, size
+0254  F03A     NOP
+0256  0EBD     MOVLW 0xBD
+0258  6E3B     MOVWF flashWrBufPtr, ACCESS
+025A  0E00     MOVLW 0x0
+025C  6E3C     MOVWF 0x3C, ACCESS
+025E  EC3D     CALL 0x47A, 0
+0260  F002     NOP
+215:           									}
+216:           									//Config & User ID are not to be programmed
+217:           
+218:           									SendCharUSB('#');
+0262  0E23     MOVLW 0x23
+0264  ECD4     CALL 0x7A8, 0
+0266  F003     NOP
+219:           								}
+0268  D04B     BRA 0x300
+220:           								else if (c == 1)
+026A  0454     DECF c, W, ACCESS
+026C  A4D8     BTFSS STATUS, 2, ACCESS
+026E  D027     BRA 0x2BE
+221:           								{
+222:           									if (s == 0 && (a & 0xffff) == 0)
+0270  5055     MOVF s, W, ACCESS
+0272  A4D8     BTFSS STATUS, 2, ACCESS
+0274  D01D     BRA 0x2B0
+0276  0EFF     MOVLW 0xFF
+0278  144D     ANDWF a, W, ACCESS
+027A  6E43     MOVWF 0x43, ACCESS
+027C  0EFF     MOVLW 0xFF
+027E  144E     ANDWF 0x4E, W, ACCESS
+0280  6E44     MOVWF 0x44, ACCESS
+0282  0E00     MOVLW 0x0
+0284  144F     ANDWF 0x4F, W, ACCESS
+0286  6E45     MOVWF 0x45, ACCESS
+0288  5043     MOVF 0x43, W, ACCESS
+028A  1044     IORWF 0x44, W, ACCESS
+028C  1045     IORWF 0x45, W, ACCESS
+028E  A4D8     BTFSS STATUS, 2, ACCESS
+0290  D00F     BRA 0x2B0
+223:           									{
+224:           										showText(OK);
+0292  0E8F     MOVLW 0x8F
+0294  6E2A     MOVWF t, ACCESS
+0296  0E00     MOVLW 0x0
+0298  6E2B     MOVWF i, ACCESS
+029A  ECC0     CALL 0x780, 0
+029C  F003     NOP
+225:           										showText(error2);
+029E  0E7B     MOVLW 0x7B
+02A0  6E2A     MOVWF t, ACCESS
+02A2  0E00     MOVLW 0x0
+02A4  6E2B     MOVWF i, ACCESS
+02A6  ECC0     CALL 0x780, 0
+02A8  F003     NOP
+226:           										error = 1; //wait reset
+02AA  0E01     MOVLW 0x1
+02AC  6E52     MOVWF error, ACCESS
+227:           									}
+02AE  D028     BRA 0x300
+228:           									else
+229:           									{
+230:           										showError(error_EOF);
+02B0  0E25     MOVLW 0x25
+02B2  6E2C     MOVWF t, ACCESS
+02B4  0E00     MOVLW 0x0
+02B6  6E2D     MOVWF counter, ACCESS
+02B8  EC82     CALL 0x704, 0
+02BA  F003     NOP
+231:           									}
+232:           								}
+02BC  D021     BRA 0x300
+233:           								else if (c == 4)
+02BE  0E04     MOVLW 0x4
+02C0  1854     XORWF c, W, ACCESS
+02C2  A4D8     BTFSS STATUS, 2, ACCESS
+02C4  D017     BRA 0x2F4
+234:           								{
+235:           									if (s != 2)
+02C6  0E02     MOVLW 0x2
+02C8  1855     XORWF s, W, ACCESS
+02CA  B4D8     BTFSC STATUS, 2, ACCESS
+02CC  D007     BRA 0x2DC
+236:           									{
+237:           										showError(error_address);
+02CE  0E09     MOVLW 0x9
+02D0  6E2C     MOVWF t, ACCESS
+02D2  0E00     MOVLW 0x0
+02D4  6E2D     MOVWF counter, ACCESS
+02D6  EC82     CALL 0x704, 0
+02D8  F003     NOP
+238:           									}
+02DA  D012     BRA 0x300
+239:           									else
+240:           									{
+241:           										//										a = ((unsigned long) d[0] << 24)+((unsigned long) d[1] << 16);
+242:           										a = (unsigned long) d[1] << 16;
+02DC  0100     MOVLB 0x0
+02DE  51BE     MOVF 0xBE, W, BANKED
+02E0  6E45     MOVWF 0x45, ACCESS
+02E2  6A44     CLRF 0x44, ACCESS
+02E4  6A43     CLRF 0x43, ACCESS
+02E6  C043     MOVFF 0x43, a
+02E8  F04D     NOP
+02EA  C044     MOVFF 0x44, 0x4E
+02EC  F04E     NOP
+02EE  C045     MOVFF 0x45, 0x4F
+02F0  F04F     NOP
+243:           										//										showText("MemUpper");
+244:           										//										showHex4(a >> 8);
+245:           									}
+246:           								}
+02F2  D006     BRA 0x300
+247:           								else
+248:           								{
+249:           									showError(error_command);
+02F4  0E01     MOVLW 0x1
+02F6  6E2C     MOVWF t, ACCESS
+02F8  0E00     MOVLW 0x0
+02FA  6E2D     MOVWF counter, ACCESS
+02FC  EC82     CALL 0x704, 0
+02FE  F003     NOP
+250:           								}
+251:           							}
+252:           
+253:           							i = -1;
+0300  6857     SETF i, ACCESS
+254:           						}
+0302  D03F     BRA 0x382
+255:           						else if (i > (s + 5) * 2)
+0304  5057     MOVF i, W, ACCESS
+0306  6E43     MOVWF 0x43, ACCESS
+0308  6A44     CLRF 0x44, ACCESS
+030A  5055     MOVF s, W, ACCESS
+030C  6E45     MOVWF 0x45, ACCESS
+030E  6A46     CLRF 0x46, ACCESS
+0310  90D8     BCF STATUS, 0, ACCESS
+0312  3645     RLCF 0x45, F, ACCESS
+0314  3646     RLCF 0x46, F, ACCESS
+0316  0E0A     MOVLW 0xA
+0318  2645     ADDWF 0x45, F, ACCESS
+031A  0E00     MOVLW 0x0
+031C  2246     ADDWFC 0x46, F, ACCESS
+031E  5043     MOVF 0x43, W, ACCESS
+0320  5C45     SUBWF 0x45, W, ACCESS
+0322  5046     MOVF 0x46, W, ACCESS
+0324  0A80     XORLW 0x80
+0326  6E47     MOVWF 0x47, ACCESS
+0328  5044     MOVF 0x44, W, ACCESS
+032A  0A80     XORLW 0x80
+032C  5847     SUBWFB 0x47, W, ACCESS
+032E  B0D8     BTFSC STATUS, 0, ACCESS
+0330  D007     BRA 0x340
+256:           						{
+257:           							showError(error_dataSize);
+0332  0E20     MOVLW 0x20
+0334  6E2C     MOVWF t, ACCESS
+0336  0E00     MOVLW 0x0
+0338  6E2D     MOVWF counter, ACCESS
+033A  EC82     CALL 0x704, 0
+033C  F003     NOP
+258:           						}
+033E  D021     BRA 0x382
+259:           						else if (!(i & 1))
+0340  B057     BTFSC i, 0, ACCESS
+0342  D01F     BRA 0x382
+260:           						{
+261:           							//data
+262:           							d[(i - 1) / 2 - 4] = hexToInt8();
+0344  EC91     CALL 0x522, 0
+0346  F002     NOP
+0348  6E43     MOVWF 0x43, ACCESS
+034A  0EFC     MOVLW 0xFC
+034C  6E44     MOVWF 0x44, ACCESS
+034E  0EFF     MOVLW 0xFF
+0350  6E45     MOVWF 0x45, ACCESS
+0352  0EFF     MOVLW 0xFF
+0354  2457     ADDWF i, W, ACCESS
+0356  6E29     MOVWF __pcstackCOMRAM, ACCESS
+0358  6A2A     CLRF t, ACCESS
+035A  0EFF     MOVLW 0xFF
+035C  222A     ADDWFC t, F, ACCESS
+035E  0E00     MOVLW 0x0
+0360  6E2C     MOVWF t, ACCESS
+0362  0E02     MOVLW 0x2
+0364  6E2B     MOVWF i, ACCESS
+0366  ECE0     CALL 0x5C0, 0
+0368  F002     NOP
+036A  5044     MOVF 0x44, W, ACCESS
+036C  2629     ADDWF __pcstackCOMRAM, F, ACCESS
+036E  5045     MOVF 0x45, W, ACCESS
+0370  222A     ADDWFC t, F, ACCESS
+0372  0EBD     MOVLW 0xBD
+0374  2429     ADDWF __pcstackCOMRAM, W, ACCESS
+0376  6ED9     MOVWF FSR2, ACCESS
+0378  0E00     MOVLW 0x0
+037A  202A     ADDWFC t, W, ACCESS
+037C  6EDA     MOVWF FSR2H, ACCESS
+037E  C043     MOVFF 0x43, INDF2
+0380  FFDF     NOP
+263:           						}
+264:           						i++;
+0382  2A57     INCF i, F, ACCESS
+265:           					}
+0384  D00E     BRA 0x3A2
+266:           					else if (w == '\n' || w == '\r')
+0386  0E0A     MOVLW 0xA
+0388  1856     XORWF w, W, ACCESS
+038A  B4D8     BTFSC STATUS, 2, ACCESS
+038C  D00A     BRA 0x3A2
+038E  0E0D     MOVLW 0xD
+0390  1856     XORWF w, W, ACCESS
+0392  B4D8     BTFSC STATUS, 2, ACCESS
+0394  D006     BRA 0x3A2
+267:           					{
+268:           					}
+269:           					else
+270:           					{
+271:           						showError(error_invalidChar);
+0396  0E9D     MOVLW 0x9D
+0398  6E2C     MOVWF t, ACCESS
+039A  0E00     MOVLW 0x0
+039C  6E2D     MOVWF counter, ACCESS
+039E  EC82     CALL 0x704, 0
+03A0  F003     NOP
+272:           					}
+273:           				}
+274:           
+275:           				if (!PIR4bits.RC5IF)
+03A2  010E     MOVLB 0xE
+03A4  BB37     BTFSC writeAddrStart, 5, BANKED
+03A6  D677     BRA 0x96
+276:           				{
+277:           					//Resume receiving
+278:           					USB_SetReady(1);
+03A8  807E     BSF LATF, 0, ACCESS
+279:           				}
+280:           			}
+281:           		}
+282:           	}
+03AA  D675     BRA 0x96
+283:           	high_isr();
+284:           	low_isr();
+285:           }
+286:           
+287:           void FLASH_EraseBlock(__uint24 baseAddr)
+288:           {
+289:           	TBLPTR = PAGE(baseAddr);
+072E  0E80     MOVLW 0x80
+0730  1429     ANDWF __pcstackCOMRAM, W, ACCESS
+0732  6EF6     MOVWF TBLPTR, ACCESS
+0734  0EFF     MOVLW 0xFF
+0736  142A     ANDWF t, W, ACCESS
+0738  6EF7     MOVWF TBLPTRH, ACCESS
+073A  0EFF     MOVLW 0xFF
+073C  142B     ANDWF i, W, ACCESS
+073E  6EF8     MOVWF TBLPTRU, ACCESS
+290:           	//	TBLPTRU = (unsigned char) ((baseAddr) >> 16);
+291:           	//	TBLPTRH = (unsigned char) ((baseAddr) >> 8);
+292:           	//	TBLPTRL = (unsigned char) (baseAddr); // & 0x80);
+293:           
+294:           	NVMCON1bits.NVMREG = 2;
+0740  5077     MOVF NVMCON1, W, ACCESS
+0742  0B3F     ANDLW 0x3F
+0744  0980     IORLW 0x80
+0746  6E77     MOVWF NVMCON1, ACCESS
+295:           	NVMCON1bits.WREN = 1;
+0748  8477     BSF NVMCON1, 2, ACCESS
+296:           	NVMCON1bits.FREE = 1;
+074A  8877     BSF NVMCON1, 4, ACCESS
+297:           	NVMCON2 = 0x55;
+074C  0E55     MOVLW 0x55
+074E  6E78     MOVWF NVMCON2, ACCESS
+298:           	NVMCON2 = 0xAA;
+0750  0EAA     MOVLW 0xAA
+0752  6E78     MOVWF NVMCON2, ACCESS
+299:           	NVMCON1bits.WR = 1;
+0754  8277     BSF NVMCON1, 1, ACCESS
+300:           }
+0756  0012     RETURN 0
+301:           
+302:           //void FLASH_WriteBlock2(unsigned long writeAddrStart, unsigned long writeAddrEnd, unsigned char* flashWrBufPtr)
+303:           //{
+304:           //	if (0x1000 <= writeAddrStart && writeAddrStart <= 0x20000UL && 0x1000 <= writeAddrEnd && writeAddrEnd <= 0x20000UL)
+305:           //	{
+306:           //		unsigned long aaa = 0;
+307:           //		unsigned char iii = 0;
+308:           //
+309:           //		if (lastErasedPage ^ PAGE(writeAddrStart))
+310:           //		{
+311:           //			// Block erase sequence
+312:           //			FLASH_EraseBlock(PAGE(writeAddrStart));
+313:           //			lastErasedPage = PAGE(writeAddrStart);
+314:           //		}
+315:           //
+316:           //		// Block write sequence
+317:           //		//	TBLPTR = writeAddrStart & 0x00ffff80UL;
+318:           //		TBLPTRU = (unsigned char) ((writeAddrStart) >> 16); // Load Table point register
+319:           //		TBLPTRH = (unsigned char) ((writeAddrStart) >> 8);
+320:           //		TBLPTRL = (unsigned char) (writeAddrStart & 0x80);
+321:           //
+322:           //		TABLAT = 0xff;
+323:           //		for (unsigned char dddd = 0; dddd < 128; dddd++)
+324:           //		{
+325:           //			asm("TBLWTPOSTINC");
+326:           //		}
+327:           //
+328:           //		aaa = writeAddrStart;
+329:           //
+330:           //		TBLPTRU = (unsigned char) ((writeAddrStart) >> 16); // Load Table point register
+331:           //		TBLPTRH = (unsigned char) ((writeAddrStart) >> 8);
+332:           //		TBLPTRL = (unsigned char) (writeAddrStart);
+333:           //		while (aaa <= writeAddrEnd)
+334:           //		{
+335:           //			TABLAT = flashWrBufPtr[iii++]; // Load data byte
+336:           //			//		showHex2(TABLAT);
+337:           //
+338:           //			aaa++;
+339:           //			asm("TBLWTPOSTINC");
+340:           //		}
+341:           //
+342:           //		TBLPTRU = (unsigned char) ((writeAddrStart) >> 16); // Load Table point register
+343:           //		TBLPTRH = (unsigned char) ((writeAddrStart) >> 8);
+344:           //		TBLPTRL = (unsigned char) (writeAddrStart & 0x80);
+345:           //
+346:           //		NVMCON1bits.NVMREG = 2;
+347:           //		NVMCON1bits.WREN = 1;
+348:           //		NVMCON2 = 0x55;
+349:           //		NVMCON2 = 0xAA;
+350:           //		NVMCON1bits.WR = 1; // Start program
+351:           //		NVMCON1bits.WREN = 0; // Disable writes to memory
+352:           //	}
+353:           //}
+354:           
+355:           void FLASH_WriteBlock2(__uint24 writeAddrStart, unsigned char size, unsigned char* flashWrBufPtr)
+356:           {
+357:           	//	if (0x1000 <= writeAddrStart && writeAddrStart <= 0x20000UL && 0x1000 <= writeAddrEnd && writeAddrEnd <= 0x20000UL)
+358:           	//	{
+359:           	unsigned char iii = 0;
+03AC  0E00     MOVLW 0x0
+03AE  6E35     MOVWF iii, ACCESS
+360:           
+361:           	if (lastErasedPage != PAGE(writeAddrStart))
+03B0  0E80     MOVLW 0x80
+03B2  142C     ANDWF t, W, ACCESS
+03B4  6E32     MOVWF 0x32, ACCESS
+03B6  0EFF     MOVLW 0xFF
+03B8  142D     ANDWF counter, W, ACCESS
+03BA  6E33     MOVWF 0x33, ACCESS
+03BC  0EFF     MOVLW 0xFF
+03BE  142E     ANDWF sign, W, ACCESS
+03C0  6E34     MOVWF 0x34, ACCESS
+03C2  504A     MOVF lastErasedPage, W, ACCESS
+03C4  1832     XORWF 0x32, W, ACCESS
+03C6  E107     BNZ 0x3D6
+03C8  504B     MOVF 0x4B, W, ACCESS
+03CA  1833     XORWF 0x33, W, ACCESS
+03CC  E104     BNZ 0x3D6
+03CE  504C     MOVF 0x4C, W, ACCESS
+03D0  1834     XORWF 0x34, W, ACCESS
+03D2  B4D8     BTFSC STATUS, 2, ACCESS
+03D4  D014     BRA 0x3FE
+362:           	{
+363:           		// Block erase sequence
+364:           		FLASH_EraseBlock(PAGE(writeAddrStart));
+03D6  0E80     MOVLW 0x80
+03D8  142C     ANDWF t, W, ACCESS
+03DA  6E29     MOVWF __pcstackCOMRAM, ACCESS
+03DC  0EFF     MOVLW 0xFF
+03DE  142D     ANDWF counter, W, ACCESS
+03E0  6E2A     MOVWF t, ACCESS
+03E2  0EFF     MOVLW 0xFF
+03E4  142E     ANDWF sign, W, ACCESS
+03E6  6E2B     MOVWF i, ACCESS
+03E8  EC97     CALL 0x72E, 0
+03EA  F003     NOP
+365:           		lastErasedPage = PAGE(writeAddrStart);
+03EC  0E80     MOVLW 0x80
+03EE  142C     ANDWF t, W, ACCESS
+03F0  6E4A     MOVWF lastErasedPage, ACCESS
+03F2  0EFF     MOVLW 0xFF
+03F4  142D     ANDWF counter, W, ACCESS
+03F6  6E4B     MOVWF 0x4B, ACCESS
+03F8  0EFF     MOVLW 0xFF
+03FA  142E     ANDWF sign, W, ACCESS
+03FC  6E4C     MOVWF 0x4C, ACCESS
+366:           	}
+367:           
+368:           	// Block write sequence
+369:           	TBLPTR = PAGE(writeAddrStart);
+03FE  0E80     MOVLW 0x80
+0400  142C     ANDWF t, W, ACCESS
+0402  6EF6     MOVWF TBLPTR, ACCESS
+0404  0EFF     MOVLW 0xFF
+0406  142D     ANDWF counter, W, ACCESS
+0408  6EF7     MOVWF TBLPTRH, ACCESS
+040A  0EFF     MOVLW 0xFF
+040C  142E     ANDWF sign, W, ACCESS
+040E  6EF8     MOVWF TBLPTRU, ACCESS
+370:           	//		TBLPTRU = (unsigned char) ((writeAddrStart) >> 16); // Load Table point register
+371:           	//		TBLPTRH = (unsigned char) ((writeAddrStart) >> 8);
+372:           	//		TBLPTRL = (unsigned char) (writeAddrStart & 0x80);
+373:           
+374:           	TABLAT = 0xff;
+0410  68F5     SETF TABLAT, ACCESS
+375:           	for (unsigned char dddd = 0; dddd < 128; dddd++)
+0412  0E00     MOVLW 0x0
+0414  6E36     MOVWF dddd, ACCESS
+0416  D002     BRA 0x41C
+376:           	{
+377:           		asm("TBLWTPOSTINC");
+0418  000D     TBLWT*+
+378:           	}
+041A  2A36     INCF dddd, F, ACCESS
+041C  0E7F     MOVLW 0x7F
+041E  6436     CPFSGT dddd, ACCESS
+0420  D7FB     BRA 0x418
+379:           
+380:           	//	aaa = writeAddrStart;
+381:           
+382:           	TBLPTR = writeAddrStart; //	TBLPTRU = (unsigned char) ((writeAddrStart) >> 16); // Load Table point register
+0422  C02C     MOVFF t, TBLPTR
+0424  FFF6     NOP
+0426  C02D     MOVFF counter, TBLPTRH
+0428  FFF7     NOP
+042A  C02E     MOVFF sign, TBLPTRU
+042C  FFF8     NOP
+383:           	//	TBLPTRH = (unsigned char) ((writeAddrStart) >> 8);
+384:           	//	TBLPTRL = (unsigned char) (writeAddrStart);
+385:           
+386:           	while (iii < size)
+042E  D00C     BRA 0x448
+387:           	{
+388:           		TABLAT = flashWrBufPtr[iii++]; // Load data byte
+0430  5035     MOVF iii, W, ACCESS
+0432  0D01     MULLW 0x1
+0434  50F3     MOVF PROD, W, ACCESS
+0436  2430     ADDWF flashWrBufPtr, W, ACCESS
+0438  6ED9     MOVWF FSR2, ACCESS
+043A  50F4     MOVF PRODH, W, ACCESS
+043C  2031     ADDWFC 0x31, W, ACCESS
+043E  6EDA     MOVWF FSR2H, ACCESS
+0440  50DF     MOVF INDF2, W, ACCESS
+0442  6EF5     MOVWF TABLAT, ACCESS
+0444  2A35     INCF iii, F, ACCESS
+389:           		//		showHex2(TABLAT);
+390:           
+391:           		//		aaa++;
+392:           		asm("TBLWTPOSTINC");
+0446  000D     TBLWT*+
+393:           	}
+0448  502F     MOVF size, W, ACCESS
+044A  5C35     SUBWF iii, W, ACCESS
+044C  A0D8     BTFSS STATUS, 0, ACCESS
+044E  D7F0     BRA 0x430
+394:           
+395:           	TBLPTR = PAGE(writeAddrStart);
+0450  0E80     MOVLW 0x80
+0452  142C     ANDWF t, W, ACCESS
+0454  6EF6     MOVWF TBLPTR, ACCESS
+0456  0EFF     MOVLW 0xFF
+0458  142D     ANDWF counter, W, ACCESS
+045A  6EF7     MOVWF TBLPTRH, ACCESS
+045C  0EFF     MOVLW 0xFF
+045E  142E     ANDWF sign, W, ACCESS
+0460  6EF8     MOVWF TBLPTRU, ACCESS
+396:           	//	TBLPTRU = (unsigned char) ((writeAddrStart) >> 16); // Load Table point register
+397:           	//	TBLPTRH = (unsigned char) ((writeAddrStart) >> 8);
+398:           	//	TBLPTRL = (unsigned char) (writeAddrStart & 0x80);
+399:           
+400:           	NVMCON1bits.NVMREG = 2;
+0462  5077     MOVF NVMCON1, W, ACCESS
+0464  0B3F     ANDLW 0x3F
+0466  0980     IORLW 0x80
+0468  6E77     MOVWF NVMCON1, ACCESS
+401:           	NVMCON1bits.WREN = 1;
+046A  8477     BSF NVMCON1, 2, ACCESS
+402:           	NVMCON2 = 0x55;
+046C  0E55     MOVLW 0x55
+046E  6E78     MOVWF NVMCON2, ACCESS
+403:           	NVMCON2 = 0xAA;
+0470  0EAA     MOVLW 0xAA
+0472  6E78     MOVWF NVMCON2, ACCESS
+404:           	NVMCON1bits.WR = 1; // Start program
+0474  8277     BSF NVMCON1, 1, ACCESS
+405:           	NVMCON1bits.WREN = 0; // Disable writes to memory
+0476  9477     BCF NVMCON1, 2, ACCESS
+406:           	//	}
+407:           }
+0478  0012     RETURN 0
+408:           
+409:           //void FLASH_WriteBlock(unsigned long writeAddrStart, unsigned long writeAddrEnd, unsigned char* flashWrBufPtr)
+410:           //{
+411:           //	switch (PAGE(writeAddrEnd - writeAddrStart))
+412:           //	{
+413:           //	case 0:
+414:           //		FLASH_WriteBlock2(writeAddrStart, writeAddrEnd, flashWrBufPtr);
+415:           //		break;
+416:           //	case 0x80:
+417:           //		FLASH_WriteBlock2(writeAddrStart, writeAddrStart | 0x7f, flashWrBufPtr);
+418:           //		FLASH_WriteBlock2((writeAddrStart | 0x7f) + 1, writeAddrEnd, flashWrBufPtr + (writeAddrStart | 0x7f) + 1 - writeAddrStart);
+419:           //		break;
+420:           //	default:
+421:           //		showError("P");
+422:           //		break;
+423:           //	}
+424:           //}
+425:           //										FLASH_WriteBlock(a, a + s - 1, d);
+426:           
+427:           void FLASH_WriteBlock(__uint24 writeAddrStart, unsigned char size, unsigned char* flashWrBufPtr)
+428:           {
+429:           	unsigned char adr2 = writeAddrStart & 0x7f;
+047A  5037     MOVF writeAddrStart, W, ACCESS
+047C  0B7F     ANDLW 0x7F
+047E  6E41     MOVWF adr2, ACCESS
+430:           
+431:           	if (0x80 & ((adr2) + size - 1))
+0480  0EFF     MOVLW 0xFF
+0482  6E3D     MOVWF 0x3D, ACCESS
+0484  0EFF     MOVLW 0xFF
+0486  6E3E     MOVWF 0x3E, ACCESS
+0488  503A     MOVF size, W, ACCESS
+048A  C041     MOVFF adr2, 0x3F
+048C  F03F     NOP
+048E  6A40     CLRF 0x40, ACCESS
+0490  263F     ADDWF 0x3F, F, ACCESS
+0492  0E00     MOVLW 0x0
+0494  2240     ADDWFC 0x40, F, ACCESS
+0496  503D     MOVF 0x3D, W, ACCESS
+0498  263F     ADDWF 0x3F, F, ACCESS
+049A  503E     MOVF 0x3E, W, ACCESS
+049C  2240     ADDWFC 0x40, F, ACCESS
+049E  AE3F     BTFSS 0x3F, 7, ACCESS
+04A0  D031     BRA 0x504
+432:           	{
+433:           		unsigned char size1 = 0x80 - adr2;
+04A2  5041     MOVF adr2, W, ACCESS
+04A4  0800     SUBLW 0x0
+04A6  0F80     ADDLW 0x80
+04A8  6E42     MOVWF size1, ACCESS
+434:           		//2 page
+435:           		FLASH_WriteBlock2(writeAddrStart, size1, flashWrBufPtr);
+04AA  C037     MOVFF writeAddrStart, t
+04AC  F02C     NOP
+04AE  C038     MOVFF 0x38, counter
+04B0  F02D     NOP
+04B2  C039     MOVFF 0x39, sign
+04B4  F02E     NOP
+04B6  C042     MOVFF size1, size
+04B8  F02F     NOP
+04BA  C03B     MOVFF flashWrBufPtr, flashWrBufPtr
+04BC  F030     NOP
+04BE  C03C     MOVFF 0x3C, 0x31
+04C0  F031     NOP
+04C2  ECD6     CALL 0x3AC, 0
+04C4  F001     NOP
+436:           
+437:           		FLASH_WriteBlock2(PAGE(writeAddrStart) + 0x80, size - size1, flashWrBufPtr + size1);
+04C6  0E80     MOVLW 0x80
+04C8  1437     ANDWF writeAddrStart, W, ACCESS
+04CA  6E3D     MOVWF 0x3D, ACCESS
+04CC  0EFF     MOVLW 0xFF
+04CE  1438     ANDWF 0x38, W, ACCESS
+04D0  6E3E     MOVWF 0x3E, ACCESS
+04D2  0EFF     MOVLW 0xFF
+04D4  1439     ANDWF 0x39, W, ACCESS
+04D6  6E3F     MOVWF 0x3F, ACCESS
+04D8  0E80     MOVLW 0x80
+04DA  243D     ADDWF 0x3D, W, ACCESS
+04DC  6E2C     MOVWF t, ACCESS
+04DE  0E00     MOVLW 0x0
+04E0  203E     ADDWFC 0x3E, W, ACCESS
+04E2  6E2D     MOVWF counter, ACCESS
+04E4  0E00     MOVLW 0x0
+04E6  203F     ADDWFC 0x3F, W, ACCESS
+04E8  6E2E     MOVWF sign, ACCESS
+04EA  5042     MOVF size1, W, ACCESS
+04EC  0800     SUBLW 0x0
+04EE  243A     ADDWF size, W, ACCESS
+04F0  6E2F     MOVWF size, ACCESS
+04F2  5042     MOVF size1, W, ACCESS
+04F4  243B     ADDWF flashWrBufPtr, W, ACCESS
+04F6  6E30     MOVWF flashWrBufPtr, ACCESS
+04F8  0E00     MOVLW 0x0
+04FA  203C     ADDWFC 0x3C, W, ACCESS
+04FC  6E31     MOVWF 0x31, ACCESS
+04FE  ECD6     CALL 0x3AC, 0
+0500  F001     NOP
+438:           	}
+0502  0012     RETURN 0
+439:           	else
+440:           	{
+441:           		//1 page
+442:           		FLASH_WriteBlock2(writeAddrStart, size, flashWrBufPtr);
+0504  C037     MOVFF writeAddrStart, t
+0506  F02C     NOP
+0508  C038     MOVFF 0x38, counter
+050A  F02D     NOP
+050C  C039     MOVFF 0x39, sign
+050E  F02E     NOP
+0510  C03A     MOVFF size, size
+0512  F02F     NOP
+0514  C03B     MOVFF flashWrBufPtr, flashWrBufPtr
+0516  F030     NOP
+0518  C03C     MOVFF 0x3C, 0x31
+051A  F031     NOP
+051C  ECD6     CALL 0x3AC, 0
+051E  F001     NOP
+0520  0012     RETURN 0
+443:           	}
+444:           }
+445:           
+446:           unsigned char hexToInt8(void)
+447:           {
+448:           	unsigned char ret;
+449:           	unsigned char i = 0;
+0522  0E00     MOVLW 0x0
+0524  6E2B     MOVWF i, ACCESS
+450:           	for (; i < 2; i++)
+0526  0E01     MOVLW 0x1
+0528  642B     CPFSGT i, ACCESS
+052A  D001     BRA 0x52E
+052C  D047     BRA 0x5BC
+451:           	{
+452:           		ret <<= 4;
+052E  3A2A     SWAPF t, F, ACCESS
+0530  0EF0     MOVLW 0xF0
+0532  162A     ANDWF t, F, ACCESS
+453:           		if ('0' <= t[i] && t[i] <= '9')
+0534  502B     MOVF i, W, ACCESS
+0536  0D01     MULLW 0x1
+0538  0E50     MOVLW 0x50
+053A  24F3     ADDWF PROD, W, ACCESS
+053C  6ED9     MOVWF FSR2, ACCESS
+053E  0E00     MOVLW 0x0
+0540  20F4     ADDWFC PRODH, W, ACCESS
+0542  6EDA     MOVWF FSR2H, ACCESS
+0544  0E2F     MOVLW 0x2F
+0546  64DF     CPFSGT INDF2, ACCESS
+0548  D016     BRA 0x576
+054A  502B     MOVF i, W, ACCESS
+054C  0D01     MULLW 0x1
+054E  0E50     MOVLW 0x50
+0550  24F3     ADDWF PROD, W, ACCESS
+0552  6ED9     MOVWF FSR2, ACCESS
+0554  0E00     MOVLW 0x0
+0556  20F4     ADDWFC PRODH, W, ACCESS
+0558  6EDA     MOVWF FSR2H, ACCESS
+055A  0E3A     MOVLW 0x3A
+055C  60DF     CPFSLT INDF2, ACCESS
+055E  D00B     BRA 0x576
+454:           		{
+455:           			ret += t[i] - '0';
+0560  502B     MOVF i, W, ACCESS
+0562  0D01     MULLW 0x1
+0564  0E50     MOVLW 0x50
+0566  24F3     ADDWF PROD, W, ACCESS
+0568  6ED9     MOVWF FSR2, ACCESS
+056A  0E00     MOVLW 0x0
+056C  20F4     ADDWFC PRODH, W, ACCESS
+056E  6EDA     MOVWF FSR2H, ACCESS
+0570  50DF     MOVF INDF2, W, ACCESS
+0572  0FD0     ADDLW 0xD0
+0574  D020     BRA 0x5B6
+456:           		}
+457:           		else if ('A' <= t[i] && t[i] <= 'F')
+0576  502B     MOVF i, W, ACCESS
+0578  0D01     MULLW 0x1
+057A  0E50     MOVLW 0x50
+057C  24F3     ADDWF PROD, W, ACCESS
+057E  6ED9     MOVWF FSR2, ACCESS
+0580  0E00     MOVLW 0x0
+0582  20F4     ADDWFC PRODH, W, ACCESS
+0584  6EDA     MOVWF FSR2H, ACCESS
+0586  0E40     MOVLW 0x40
+0588  64DF     CPFSGT INDF2, ACCESS
+058A  D016     BRA 0x5B8
+058C  502B     MOVF i, W, ACCESS
+058E  0D01     MULLW 0x1
+0590  0E50     MOVLW 0x50
+0592  24F3     ADDWF PROD, W, ACCESS
+0594  6ED9     MOVWF FSR2, ACCESS
+0596  0E00     MOVLW 0x0
+0598  20F4     ADDWFC PRODH, W, ACCESS
+059A  6EDA     MOVWF FSR2H, ACCESS
+059C  0E47     MOVLW 0x47
+059E  60DF     CPFSLT INDF2, ACCESS
+05A0  D00B     BRA 0x5B8
+458:           		{
+459:           			//			ret += t[i] - 'A' + 10;
+460:           			ret += t[i] - 55;
+05A2  502B     MOVF i, W, ACCESS
+05A4  0D01     MULLW 0x1
+05A6  0E50     MOVLW 0x50
+05A8  24F3     ADDWF PROD, W, ACCESS
+05AA  6ED9     MOVWF FSR2, ACCESS
+05AC  0E00     MOVLW 0x0
+05AE  20F4     ADDWFC PRODH, W, ACCESS
+05B0  6EDA     MOVWF FSR2H, ACCESS
+05B2  50DF     MOVF INDF2, W, ACCESS
+05B4  0FC9     ADDLW 0xC9
+05B6  262A     ADDWF t, F, ACCESS
+461:           		}
+462:           		else
+463:           		{
+464:           			//error
+465:           			//0
+466:           		}
+467:           	}
+05B8  2A2B     INCF i, F, ACCESS
+05BA  D7B5     BRA 0x526
+468:           	return ret;
+05BC  502A     MOVF t, W, ACCESS
+05BE  0012     RETURN 0
+469:           }
+470:           
+471:           void SendCharUSB(unsigned char d)
+07A8  6E29     MOVWF __pcstackCOMRAM, ACCESS
+472:           {
+473:           	while (!PIR4bits.TX5IF);
+07AA  010E     MOVLB 0xE
+07AC  A937     BTFSS writeAddrStart, 4, BANKED
+07AE  D7FD     BRA 0x7AA
+474:           
+475:           	if (USB_Host)
+07B0  BC8E     BTFSC PORTF, 6, ACCESS
+07B2  0012     RETURN 0
+07B4  AE8E     BTFSS PORTF, 7, ACCESS
+07B6  0012     RETURN 0
+07B8  BA8E     BTFSC PORTF, 5, ACCESS
+07BA  0012     RETURN 0
+476:           	{
+477:           		//		if (!USB_Ready)
+478:           		//		{
+479:           		//			unsigned char cccc = 0;
+480:           		//			for (; cccc < 10; cccc++)
+481:           		//			{
+482:           		//				Nop();
+483:           		//			}
+484:           		//		}
+485:           
+486:           		TX5REG = d;
+07BC  C029     MOVFF __pcstackCOMRAM, TX5REG
+07BE  FEDD     NOP
+07C0  0012     RETURN 0
+487:           	}
+488:           
+489:           	//	while (!TX5STAbits.TRMT);
+490:           }
+491:           
+492:           void showError(unsigned char* t)
+493:           {
+494:           	showText(error1);
+0704  0E19     MOVLW 0x19
+0706  6E2A     MOVWF t, ACCESS
+0708  0E00     MOVLW 0x0
+070A  6E2B     MOVWF i, ACCESS
+070C  ECC0     CALL 0x780, 0
+070E  F003     NOP
+495:           	showText(t);
+0710  C02C     MOVFF t, t
+0712  F02A     NOP
+0714  C02D     MOVFF counter, i
+0716  F02B     NOP
+0718  ECC0     CALL 0x780, 0
+071A  F003     NOP
+496:           	showText(error2);
+071C  0E7B     MOVLW 0x7B
+071E  6E2A     MOVWF t, ACCESS
+0720  0E00     MOVLW 0x0
+0722  6E2B     MOVWF i, ACCESS
+0724  ECC0     CALL 0x780, 0
+0726  F003     NOP
+497:           	error = 1;
+0728  0E01     MOVLW 0x1
+072A  6E52     MOVWF error, ACCESS
+498:           }
+072C  0012     RETURN 0
+499:           
+500:           void showText(unsigned char* t)
+501:           {
+502:           	TBLPTRU = 0;
+0780  0E00     MOVLW 0x0
+0782  6EF8     MOVWF TBLPTRU, ACCESS
+503:           	while (*t)
+0784  D009     BRA 0x798
+504:           	{
+505:           		SendCharUSB(*t++);
+0786  C02A     MOVFF t, FSR2
+0788  FFD9     NOP
+078A  C02B     MOVFF i, FSR2H
+078C  FFDA     NOP
+078E  50DF     MOVF INDF2, W, ACCESS
+0790  ECD4     CALL 0x7A8, 0
+0792  F003     NOP
+0794  4A2A     INFSNZ t, F, ACCESS
+0796  2A2B     INCF i, F, ACCESS
+506:           	}
+0798  C02A     MOVFF t, FSR2
+079A  FFD9     NOP
+079C  C02B     MOVFF i, FSR2H
+079E  FFDA     NOP
+07A0  50DF     MOVF INDF2, W, ACCESS
+07A2  B4D8     BTFSC STATUS, 2, ACCESS
+07A4  0012     RETURN 0
+07A6  D7EF     BRA 0x786
+507:           }
+508:           
+509:           //void showHex2(unsigned char n)
+510:           //{
+511:           //	SendCharUSB('0');
+512:           //	SendCharUSB('x');
+513:           //	SendCharUSB(hex[n / 0x10]);
+514:           //	SendCharUSB(hex[ n % 0x10]);
+515:           //	SendCharUSB(',');
+516:           //}
+517:           //
+518:           //void showHex4(unsigned short n)
+519:           //{
+520:           //	SendCharUSB('0');
+521:           //	SendCharUSB('x');
+522:           //	SendCharUSB(hex[n / 0x1000]);
+523:           //	SendCharUSB(hex[n / 0x100 % 0x10]);
+524:           //	SendCharUSB(hex[n / 0x10 % 0x10]);
+525:           //	SendCharUSB(hex[n % 0x10]);
+526:           //	SendCharUSB(',');
+527:           //}
+528:           
+529:           //#asm
+530:           //psect intcode, global, reloc = 2, class = CODE, delta = 1
+531:           //	GOTO NEW_INTERRUPT_VECTOR_HIGH
+532:           //
+533:           //	psect intcodelo, global, reloc = 2, class = CODE, delta = 1
+534:           //	GOTO NEW_INTERRUPT_VECTOR_LOW
+535:           //#endasm
+536:           //psect intcode
+537:           //asm("GOTO NEW_INTERRUPT_VECTOR_HIGH");__at(0x08)
+538:           //
+539:           ////psect intcodelo
+540:           //asm("GOTO NEW_INTERRUPT_VECTOR_LOW");__at(0x18)
+541:           
+542:           void high_isr (void) __at(0x08)
+543:           {
+544:           	asm("GOTO "str(NEW_INTERRUPT_VECTOR_HIGH));
+0008  EF04     GOTO 0x808
+000A  F004     NOP
+545:           }
+000C  0012     RETURN 0
+546:           
+547:           void low_isr (void) __at(0x18)
+548:           {
+549:           	asm("GOTO "str(NEW_INTERRUPT_VECTOR_LOW));
+0018  EF0C     GOTO 0x818
+001A  F004     NOP
+550:           }
+001C  0012     RETURN 0
+---  C:/Program Files (x86)/Microchip/xc8/v2.00/pic/sources/c99/common/awdiv.c  -------------------------
+1:             // integer signed division
+2:             
+3:             signed int
+4:             #ifdef __PICC__
+5:             __awdiv(signed int divisor, signed int dividend)
+6:             #else
+7:             __awdiv(signed int dividend, signed int divisor)
+8:             #endif
+9:             {
+10:            	signed int	quotient;
+11:            	unsigned char	counter, sign;
+12:            
+13:            	sign = 0;
+05C0  0E00     MOVLW 0x0
+05C2  6E2E     MOVWF sign, ACCESS
+14:            	if(divisor < 0) {
+05C4  AE2C     BTFSS t, 7, ACCESS
+05C6  D006     BRA 0x5D4
+15:            		divisor = -divisor;
+05C8  6C2B     NEGF i, ACCESS
+05CA  1E2C     COMF t, F, ACCESS
+05CC  B0D8     BTFSC STATUS, 0, ACCESS
+05CE  2A2C     INCF t, F, ACCESS
+16:            		sign = 1;
+05D0  0E01     MOVLW 0x1
+05D2  6E2E     MOVWF sign, ACCESS
+17:            	}
+18:            	if(dividend < 0) {
+05D4  AE2A     BTFSS t, 7, ACCESS
+05D6  D006     BRA 0x5E4
+19:            		dividend = -dividend;
+05D8  6C29     NEGF __pcstackCOMRAM, ACCESS
+05DA  1E2A     COMF t, F, ACCESS
+05DC  B0D8     BTFSC STATUS, 0, ACCESS
+05DE  2A2A     INCF t, F, ACCESS
+20:            		sign ^= 1;
+05E0  0E01     MOVLW 0x1
+05E2  1A2E     XORWF sign, F, ACCESS
+21:            	}
+22:            	quotient = 0;
+05E4  0E00     MOVLW 0x0
+05E6  6E30     MOVWF flashWrBufPtr, ACCESS
+05E8  0E00     MOVLW 0x0
+05EA  6E2F     MOVWF size, ACCESS
+23:            	if(divisor != 0) {
+05EC  502B     MOVF i, W, ACCESS
+05EE  102C     IORWF t, W, ACCESS
+05F0  B4D8     BTFSC STATUS, 2, ACCESS
+05F2  D01C     BRA 0x62C
+24:            		counter = 1;
+05F4  0E01     MOVLW 0x1
+05F6  6E2D     MOVWF counter, ACCESS
+25:            		while((divisor & 0x8000U) == 0) {
+05F8  D004     BRA 0x602
+26:            			divisor <<= 1;
+05FA  90D8     BCF STATUS, 0, ACCESS
+05FC  362B     RLCF i, F, ACCESS
+05FE  362C     RLCF t, F, ACCESS
+27:            			counter++;
+0600  2A2D     INCF counter, F, ACCESS
+28:            		}
+0602  AE2C     BTFSS t, 7, ACCESS
+0604  D7FA     BRA 0x5FA
+29:            		do {
+30:            			quotient <<= 1;
+0606  90D8     BCF STATUS, 0, ACCESS
+0608  362F     RLCF size, F, ACCESS
+060A  3630     RLCF flashWrBufPtr, F, ACCESS
+31:            			if((unsigned int)divisor <= (unsigned int)dividend) {
+060C  502B     MOVF i, W, ACCESS
+060E  5C29     SUBWF __pcstackCOMRAM, W, ACCESS
+0610  502C     MOVF t, W, ACCESS
+0612  582A     SUBWFB t, W, ACCESS
+0614  A0D8     BTFSS STATUS, 0, ACCESS
+0616  D005     BRA 0x622
+32:            				dividend -= divisor;
+0618  502B     MOVF i, W, ACCESS
+061A  5E29     SUBWF __pcstackCOMRAM, F, ACCESS
+061C  502C     MOVF t, W, ACCESS
+061E  5A2A     SUBWFB t, F, ACCESS
+33:            				quotient |= 1;
+0620  802F     BSF size, 0, ACCESS
+34:            			}
+35:            			*(unsigned int *)&divisor >>= 1;
+0622  90D8     BCF STATUS, 0, ACCESS
+0624  322C     RRCF t, F, ACCESS
+0626  322B     RRCF i, F, ACCESS
+36:            		} while(--counter != 0);
+0628  2E2D     DECFSZ counter, F, ACCESS
+062A  D7ED     BRA 0x606
+37:            	}
+38:            	if(sign)
+062C  502E     MOVF sign, W, ACCESS
+062E  B4D8     BTFSC STATUS, 2, ACCESS
+0630  D004     BRA 0x63A
+39:            		quotient = -quotient;
+0632  6C2F     NEGF size, ACCESS
+0634  1E30     COMF flashWrBufPtr, F, ACCESS
+0636  B0D8     BTFSC STATUS, 0, ACCESS
+0638  2A30     INCF flashWrBufPtr, F, ACCESS
+40:            	return quotient;
+063A  C02F     MOVFF size, __pcstackCOMRAM
+063C  F029     NOP
+063E  C030     MOVFF flashWrBufPtr, t
+0640  F02A     NOP
+0642  0012     RETURN 0
+41:            }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <executable name="dist/XC8_18F67K40/production\BTKB.X.production.hex">
+    <memory name="program">
+      <units>bytes</units>
+      <length>129024</length>
+      <used>12841</used>
+      <free>116183</free>
+    </memory>
+    <memory name="data">
+      <units>bytes</units>
+      <length>3562</length>
+      <used>1268</used>
+      <free>2294</free>
+    </memory>
+  </executable>
+</project>

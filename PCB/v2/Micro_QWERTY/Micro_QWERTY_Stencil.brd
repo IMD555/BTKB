@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="9.1.3">
+<drawing>
+<settings>
+<setting alwaysvectorfont="yes"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="10" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="1" altunitdist="mm" altunit="mm"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="24" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="yes" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="yes" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="yes" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="yes" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="yes" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="yes" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="88" name="SimResults" color="9" fill="1" visible="no" active="no"/>
+<layer number="89" name="SimProbes" color="9" fill="1" visible="no" active="no"/>
+<layer number="90" name="Modules" color="5" fill="1" visible="no" active="no"/>
+<layer number="91" name="Nets" color="2" fill="1" visible="no" active="no"/>
+<layer number="92" name="Busses" color="1" fill="1" visible="no" active="no"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="no" active="no"/>
+<layer number="94" name="Symbols" color="4" fill="1" visible="no" active="no"/>
+<layer number="95" name="Names" color="7" fill="1" visible="no" active="no"/>
+<layer number="96" name="Values" color="7" fill="1" visible="no" active="no"/>
+<layer number="97" name="Info" color="7" fill="1" visible="no" active="no"/>
+<layer number="98" name="Guide" color="6" fill="1" visible="no" active="no"/>
+<layer number="99" name="SpiceOrder" color="5" fill="1" visible="no" active="no"/>
+<layer number="100" name="Muster" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="101" name="Bemassung" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="110" name="Remappable" color="12" fill="1" visible="yes" active="yes"/>
+<layer number="111" name="CCP" color="9" fill="1" visible="yes" active="yes"/>
+<layer number="112" name="I2C" color="13" fill="1" visible="yes" active="yes"/>
+<layer number="113" name="5.5Vtolorant" color="10" fill="1" visible="yes" active="yes"/>
+<layer number="114" name="Analoginput" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="115" name="Highcurrent" color="13" fill="1" visible="yes" active="yes"/>
+<layer number="125" name="_tNames" color="14" fill="1" visible="yes" active="yes"/>
+<layer number="126" name="_bNames" color="5" fill="1" visible="yes" active="yes"/>
+<layer number="200" name="200bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="250" name="Descript" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="251" name="SMDround" color="7" fill="1" visible="yes" active="yes"/>
+</layers>
+<board>
+<plain>
+<wire x1="40" y1="20" x2="120" y2="20" width="0" layer="20"/>
+<wire x1="120" y1="20" x2="120" y2="60" width="0" layer="20"/>
+<wire x1="120" y1="60" x2="80" y2="60" width="0" layer="20"/>
+<wire x1="0" y1="20" x2="40" y2="20" width="0" layer="20"/>
+<wire x1="80" y1="60" x2="0" y2="60" width="0" layer="20"/>
+<wire x1="0" y1="60" x2="0" y2="20" width="0" layer="20"/>
+<wire x1="60" y1="65" x2="60" y2="15" width="1" layer="31"/>
+</plain>
+<libraries>
+<library name="0 my parts">
+<description>&lt;b&gt;IMADA Library&lt;/b&gt;&lt;p&gt;
+IMADA parts&lt;p&gt;
+&lt;author&gt;Created by imadak@hotmail.co.jp&lt;/author&gt;</description>
+<packages>
+<package name="TVAU10-025">
+<description>SKRP by ALPS&lt;p&gt;
+TS023F by Bossun&lt;p&gt;
+TVAU10 byJianfu Electronics</description>
+<wire x1="-2.1" y1="1.6" x2="2.1" y2="1.6" width="0.1" layer="51"/>
+<wire x1="2.1" y1="1.6" x2="2.1" y2="-1.6" width="0.1" layer="51"/>
+<wire x1="2.1" y1="-1.6" x2="-2.1" y2="-1.6" width="0.1" layer="51"/>
+<wire x1="-2.1" y1="-1.6" x2="-2.1" y2="1.6" width="0.1" layer="51"/>
+<smd name="P$1" x="-2.05" y="1.05" dx="0.7" dy="1.1" layer="1" rot="R90"/>
+<wire x1="-1.3" y1="1.6" x2="1.3" y2="1.6" width="0.1" layer="21"/>
+<wire x1="1.3" y1="-1.6" x2="-1.3" y2="-1.6" width="0.1" layer="21"/>
+<text x="-3.175" y="1.905" size="1.27" layer="25">&gt;NAME</text>
+<text x="0.635" y="1.905" size="1.27" layer="27">&gt;VALUE</text>
+<wire x1="-0.4" y1="-1.1" x2="-0.4" y2="1.1" width="0.1" layer="51" curve="-180"/>
+<wire x1="0.4" y1="1.1" x2="0.4" y2="-1.1" width="0.1" layer="51" curve="-180"/>
+<wire x1="-0.4" y1="1.1" x2="0.4" y2="1.1" width="0.1" layer="51"/>
+<wire x1="0.4" y1="-1.1" x2="-0.4" y2="-1.1" width="0.1" layer="51"/>
+<smd name="P$2" x="2.05" y="1.05" dx="0.7" dy="1.1" layer="1" rot="R90"/>
+<smd name="P$3" x="-2.05" y="-1.05" dx="0.7" dy="1.1" layer="1" rot="R90"/>
+<smd name="P$4" x="2.05" y="-1.05" dx="0.7" dy="1.1" layer="1" rot="R90"/>
+</package>
+</packages>
+</library>
+</libraries>
+<attributes>
+</attributes>
+<variantdefs>
+</variantdefs>
+<classes>
+<class number="0" name="default" width="0" drill="0">
+</class>
+</classes>
+<designrules name="SeeedStudio_2layer_DRU_no_angle_20140221_IMD555 *">
+<description language="de">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
+&lt;p&gt;
+Die Standard-Design-Rules sind so gewählt, dass sie für 
+die meisten Anwendungen passen. Sollte ihre Platine 
+besondere Anforderungen haben, treffen Sie die erforderlichen
+Einstellungen hier und speichern die Design Rules unter 
+einem neuen Namen ab.</description>
+<description language="en">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
+&lt;p&gt;
+The default Design Rules have been set to cover
+a wide range of applications. Your particular design
+may have different requirements, so please make the
+necessary adjustments and save your customized
+design rules under a new name.</description>
+<description language="zh">&lt;b&gt;Seeed Studio EAGLE Design Rules&lt;/b&gt;
+</description>
+<param name="layerSetup" value="(1*16)"/>
+<param name="mtCopper" value="0.035mm 0.0175mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.0175mm 0.035mm"/>
+<param name="mtIsolate" value="1.5mm 1.1mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
+<param name="mdWireWire" value="0.2mm"/>
+<param name="mdWirePad" value="0.16mm"/>
+<param name="mdWireVia" value="0.2mm"/>
+<param name="mdPadPad" value="0.2mm"/>
+<param name="mdPadVia" value="0.2mm"/>
+<param name="mdViaVia" value="0.2mm"/>
+<param name="mdSmdPad" value="0mil"/>
+<param name="mdSmdVia" value="0mil"/>
+<param name="mdSmdSmd" value="0mil"/>
+<param name="mdViaViaSameLayer" value="8mil"/>
+<param name="mnLayersViaInSmd" value="2"/>
+<param name="mdCopperDimension" value="0.2mm"/>
+<param name="mdDrill" value="10mil"/>
+<param name="mdSmdStop" value="0mil"/>
+<param name="msWidth" value="0.2mm"/>
+<param name="msDrill" value="0.3mm"/>
+<param name="msMicroVia" value="12mil"/>
+<param name="msBlindViaRatio" value="0.5"/>
+<param name="rvPadTop" value="0.2"/>
+<param name="rvPadInner" value="0.25"/>
+<param name="rvPadBottom" value="0.2"/>
+<param name="rvViaOuter" value="0.25"/>
+<param name="rvViaInner" value="0.25"/>
+<param name="rvMicroViaOuter" value="0.25"/>
+<param name="rvMicroViaInner" value="0.25"/>
+<param name="rlMinPadTop" value="0.2mm"/>
+<param name="rlMaxPadTop" value="20mil"/>
+<param name="rlMinPadInner" value="0.25mm"/>
+<param name="rlMaxPadInner" value="20mil"/>
+<param name="rlMinPadBottom" value="0.2mm"/>
+<param name="rlMaxPadBottom" value="20mil"/>
+<param name="rlMinViaOuter" value="0.2mm"/>
+<param name="rlMaxViaOuter" value="20mil"/>
+<param name="rlMinViaInner" value="0.2mm"/>
+<param name="rlMaxViaInner" value="20mil"/>
+<param name="rlMinMicroViaOuter" value="4mil"/>
+<param name="rlMaxMicroViaOuter" value="20mil"/>
+<param name="rlMinMicroViaInner" value="4mil"/>
+<param name="rlMaxMicroViaInner" value="20mil"/>
+<param name="psTop" value="-1"/>
+<param name="psBottom" value="-1"/>
+<param name="psFirst" value="-1"/>
+<param name="psElongationLong" value="90"/>
+<param name="psElongationOffset" value="90"/>
+<param name="mvStopFrame" value="0.1"/>
+<param name="mvCreamFrame" value="0"/>
+<param name="mlMinStopFrame" value="0.03mm"/>
+<param name="mlMaxStopFrame" value="0.07mm"/>
+<param name="mlMinCreamFrame" value="0mil"/>
+<param name="mlMaxCreamFrame" value="0mil"/>
+<param name="mlViaStopLimit" value="5mm"/>
+<param name="srRoundness" value="0.3"/>
+<param name="srMinRoundness" value="0.1mm"/>
+<param name="srMaxRoundness" value="3mm"/>
+<param name="slThermalIsolate" value="10mil"/>
+<param name="slThermalsForVias" value="0"/>
+<param name="dpMaxLengthDifference" value="10mm"/>
+<param name="dpGapFactor" value="2.5"/>
+<param name="checkAngle" value="1"/>
+<param name="checkFont" value="1"/>
+<param name="checkRestrict" value="0"/>
+<param name="checkStop" value="1"/>
+<param name="checkValues" value="0"/>
+<param name="checkNames" value="1"/>
+<param name="checkWireStubs" value="1"/>
+<param name="checkPolygonWidth" value="0"/>
+<param name="useDiameter" value="13"/>
+<param name="maxErrors" value="50"/>
+</designrules>
+<autorouter>
+<pass name="Default">
+<param name="RoutingGrid" value="50mil"/>
+<param name="AutoGrid" value="1"/>
+<param name="Efforts" value="0"/>
+<param name="TopRouterVariant" value="1"/>
+<param name="tpViaShape" value="round"/>
+<param name="PrefDir.1" value="a"/>
+<param name="PrefDir.2" value="0"/>
+<param name="PrefDir.3" value="0"/>
+<param name="PrefDir.4" value="0"/>
+<param name="PrefDir.5" value="0"/>
+<param name="PrefDir.6" value="0"/>
+<param name="PrefDir.7" value="0"/>
+<param name="PrefDir.8" value="0"/>
+<param name="PrefDir.9" value="0"/>
+<param name="PrefDir.10" value="0"/>
+<param name="PrefDir.11" value="0"/>
+<param name="PrefDir.12" value="0"/>
+<param name="PrefDir.13" value="0"/>
+<param name="PrefDir.14" value="0"/>
+<param name="PrefDir.15" value="0"/>
+<param name="PrefDir.16" value="a"/>
+<param name="cfVia" value="8"/>
+<param name="cfNonPref" value="5"/>
+<param name="cfChangeDir" value="2"/>
+<param name="cfOrthStep" value="2"/>
+<param name="cfDiagStep" value="3"/>
+<param name="cfExtdStep" value="0"/>
+<param name="cfBonusStep" value="1"/>
+<param name="cfMalusStep" value="1"/>
+<param name="cfPadImpact" value="4"/>
+<param name="cfSmdImpact" value="4"/>
+<param name="cfBusImpact" value="0"/>
+<param name="cfHugging" value="3"/>
+<param name="cfAvoid" value="4"/>
+<param name="cfPolygon" value="10"/>
+<param name="cfBase.1" value="0"/>
+<param name="cfBase.2" value="1"/>
+<param name="cfBase.3" value="1"/>
+<param name="cfBase.4" value="1"/>
+<param name="cfBase.5" value="1"/>
+<param name="cfBase.6" value="1"/>
+<param name="cfBase.7" value="1"/>
+<param name="cfBase.8" value="1"/>
+<param name="cfBase.9" value="1"/>
+<param name="cfBase.10" value="1"/>
+<param name="cfBase.11" value="1"/>
+<param name="cfBase.12" value="1"/>
+<param name="cfBase.13" value="1"/>
+<param name="cfBase.14" value="1"/>
+<param name="cfBase.15" value="1"/>
+<param name="cfBase.16" value="0"/>
+<param name="mnVias" value="20"/>
+<param name="mnSegments" value="9999"/>
+<param name="mnExtdSteps" value="9999"/>
+<param name="mnRipupLevel" value="10"/>
+<param name="mnRipupSteps" value="100"/>
+<param name="mnRipupTotal" value="100"/>
+</pass>
+<pass name="Follow-me" refer="Default" active="yes">
+</pass>
+<pass name="Busses" refer="Default" active="yes">
+<param name="cfNonPref" value="4"/>
+<param name="cfBusImpact" value="4"/>
+<param name="cfHugging" value="0"/>
+<param name="mnVias" value="0"/>
+</pass>
+<pass name="Route" refer="Default" active="yes">
+</pass>
+<pass name="Optimize1" refer="Default" active="yes">
+<param name="cfVia" value="99"/>
+<param name="cfExtdStep" value="10"/>
+<param name="cfHugging" value="1"/>
+<param name="mnExtdSteps" value="1"/>
+<param name="mnRipupLevel" value="0"/>
+</pass>
+<pass name="Optimize2" refer="Optimize1" active="yes">
+<param name="cfNonPref" value="0"/>
+<param name="cfChangeDir" value="6"/>
+<param name="cfExtdStep" value="0"/>
+<param name="cfBonusStep" value="2"/>
+<param name="cfMalusStep" value="2"/>
+<param name="cfPadImpact" value="2"/>
+<param name="cfSmdImpact" value="2"/>
+<param name="cfHugging" value="0"/>
+</pass>
+<pass name="Optimize3" refer="Optimize2" active="yes">
+<param name="cfChangeDir" value="8"/>
+<param name="cfPadImpact" value="0"/>
+<param name="cfSmdImpact" value="0"/>
+</pass>
+<pass name="Optimize4" refer="Optimize3" active="yes">
+<param name="cfChangeDir" value="25"/>
+</pass>
+</autorouter>
+<elements>
+<element name="SW112" library="0 my parts" package="TVAU10-025" value="SKRP(ALPS)" x="8.5" y="21.85" smashed="yes"/>
+<element name="SW124" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.25" y="21.85" smashed="yes"/>
+<element name="SW136" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="20" y="21.85" smashed="yes"/>
+<element name="SW148" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.75" y="21.85" smashed="yes"/>
+<element name="SW160" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.5" y="21.85" smashed="yes"/>
+<element name="SW111" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.5" y="25.15" smashed="yes"/>
+<element name="SW123" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.25" y="25.15" smashed="yes"/>
+<element name="SW135" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="20" y="25.15" smashed="yes"/>
+<element name="SW147" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.75" y="25.15" smashed="yes"/>
+<element name="SW159" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.5" y="25.15" smashed="yes"/>
+<element name="SW110" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="28.45" smashed="yes"/>
+<element name="SW122" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="28.45" smashed="yes"/>
+<element name="SW134" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="28.45" smashed="yes"/>
+<element name="SW146" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="28.45" smashed="yes"/>
+<element name="SW158" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="28.45" smashed="yes"/>
+<element name="SW170" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="28.45" smashed="yes"/>
+<element name="SW109" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="31.75" smashed="yes"/>
+<element name="SW121" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="31.75" smashed="yes"/>
+<element name="SW133" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="31.75" smashed="yes"/>
+<element name="SW145" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="31.75" smashed="yes"/>
+<element name="SW157" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="31.75" smashed="yes"/>
+<element name="SW169" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="31.75" smashed="yes"/>
+<element name="SW108" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="35.05" smashed="yes"/>
+<element name="SW120" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="35.05" smashed="yes"/>
+<element name="SW132" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="35.05" smashed="yes"/>
+<element name="SW144" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="35.05" smashed="yes"/>
+<element name="SW156" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="35.05" smashed="yes"/>
+<element name="SW168" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="35.05" smashed="yes"/>
+<element name="SW107" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="38.35" smashed="yes"/>
+<element name="SW119" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="38.35" smashed="yes"/>
+<element name="SW131" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="38.35" smashed="yes"/>
+<element name="SW143" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="38.35" smashed="yes"/>
+<element name="SW155" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="38.35" smashed="yes"/>
+<element name="SW167" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="38.35" smashed="yes"/>
+<element name="SW106" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="41.65" smashed="yes"/>
+<element name="SW118" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="41.65" smashed="yes"/>
+<element name="SW130" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="41.65" smashed="yes"/>
+<element name="SW142" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="41.65" smashed="yes"/>
+<element name="SW154" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="41.65" smashed="yes"/>
+<element name="SW166" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="41.65" smashed="yes"/>
+<element name="SW105" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="44.95" smashed="yes"/>
+<element name="SW117" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="44.95" smashed="yes"/>
+<element name="SW129" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="44.95" smashed="yes"/>
+<element name="SW141" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="44.95" smashed="yes"/>
+<element name="SW153" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="44.95" smashed="yes"/>
+<element name="SW165" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="44.95" smashed="yes"/>
+<element name="SW104" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="48.25" smashed="yes"/>
+<element name="SW116" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="48.25" smashed="yes"/>
+<element name="SW128" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="48.25" smashed="yes"/>
+<element name="SW140" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="48.25" smashed="yes"/>
+<element name="SW152" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="48.25" smashed="yes"/>
+<element name="SW164" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="48.25" smashed="yes"/>
+<element name="SW103" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.3" y="51.55" smashed="yes"/>
+<element name="SW115" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.05" y="51.55" smashed="yes"/>
+<element name="SW127" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="19.8" y="51.55" smashed="yes"/>
+<element name="SW139" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.55" y="51.55" smashed="yes"/>
+<element name="SW151" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.3" y="51.55" smashed="yes"/>
+<element name="SW163" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="37.05" y="51.55" smashed="yes"/>
+<element name="SW102" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.5" y="54.85" smashed="yes"/>
+<element name="SW114" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.25" y="54.85" smashed="yes"/>
+<element name="SW126" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="20" y="54.85" smashed="yes"/>
+<element name="SW138" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.75" y="54.85" smashed="yes"/>
+<element name="SW150" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.5" y="54.85" smashed="yes"/>
+<element name="SW101" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="8.5" y="58.15" smashed="yes"/>
+<element name="SW113" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="14.25" y="58.15" smashed="yes"/>
+<element name="SW125" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="20" y="58.15" smashed="yes"/>
+<element name="SW137" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="25.75" y="58.15" smashed="yes"/>
+<element name="SW149" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="31.5" y="58.15" smashed="yes"/>
+<element name="SW1" library="0 my parts" package="TVAU10-025" value="SKRP(ALPS)" x="111.5" y="58.15" smashed="yes" rot="R180"/>
+<element name="SW2" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.75" y="58.15" smashed="yes" rot="R180"/>
+<element name="SW3" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100" y="58.15" smashed="yes" rot="R180"/>
+<element name="SW4" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.25" y="58.15" smashed="yes" rot="R180"/>
+<element name="SW5" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.5" y="58.15" smashed="yes" rot="R180"/>
+<element name="SW6" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.5" y="54.85" smashed="yes" rot="R180"/>
+<element name="SW7" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.75" y="54.85" smashed="yes" rot="R180"/>
+<element name="SW8" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100" y="54.85" smashed="yes" rot="R180"/>
+<element name="SW9" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.25" y="54.85" smashed="yes" rot="R180"/>
+<element name="SW10" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.5" y="54.85" smashed="yes" rot="R180"/>
+<element name="SW11" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="51.55" smashed="yes" rot="R180"/>
+<element name="SW12" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="51.55" smashed="yes" rot="R180"/>
+<element name="SW13" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="51.55" smashed="yes" rot="R180"/>
+<element name="SW14" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="51.55" smashed="yes" rot="R180"/>
+<element name="SW15" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="51.55" smashed="yes" rot="R180"/>
+<element name="SW16" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="51.55" smashed="yes" rot="R180"/>
+<element name="SW17" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="48.25" smashed="yes" rot="R180"/>
+<element name="SW18" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="48.25" smashed="yes" rot="R180"/>
+<element name="SW19" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="48.25" smashed="yes" rot="R180"/>
+<element name="SW20" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="48.25" smashed="yes" rot="R180"/>
+<element name="SW21" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="48.25" smashed="yes" rot="R180"/>
+<element name="SW22" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="48.25" smashed="yes" rot="R180"/>
+<element name="SW23" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="44.95" smashed="yes" rot="R180"/>
+<element name="SW24" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="44.95" smashed="yes" rot="R180"/>
+<element name="SW25" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="44.95" smashed="yes" rot="R180"/>
+<element name="SW26" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="44.95" smashed="yes" rot="R180"/>
+<element name="SW27" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="44.95" smashed="yes" rot="R180"/>
+<element name="SW28" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="44.95" smashed="yes" rot="R180"/>
+<element name="SW29" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="41.65" smashed="yes" rot="R180"/>
+<element name="SW30" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="41.65" smashed="yes" rot="R180"/>
+<element name="SW31" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="41.65" smashed="yes" rot="R180"/>
+<element name="SW32" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="41.65" smashed="yes" rot="R180"/>
+<element name="SW33" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="41.65" smashed="yes" rot="R180"/>
+<element name="SW34" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="41.65" smashed="yes" rot="R180"/>
+<element name="SW35" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="38.35" smashed="yes" rot="R180"/>
+<element name="SW36" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="38.35" smashed="yes" rot="R180"/>
+<element name="SW37" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="38.35" smashed="yes" rot="R180"/>
+<element name="SW38" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="38.35" smashed="yes" rot="R180"/>
+<element name="SW39" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="38.35" smashed="yes" rot="R180"/>
+<element name="SW40" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="38.35" smashed="yes" rot="R180"/>
+<element name="SW41" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="35.05" smashed="yes" rot="R180"/>
+<element name="SW42" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="35.05" smashed="yes" rot="R180"/>
+<element name="SW43" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="35.05" smashed="yes" rot="R180"/>
+<element name="SW44" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="35.05" smashed="yes" rot="R180"/>
+<element name="SW45" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="35.05" smashed="yes" rot="R180"/>
+<element name="SW46" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="35.05" smashed="yes" rot="R180"/>
+<element name="SW47" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="31.75" smashed="yes" rot="R180"/>
+<element name="SW48" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="31.75" smashed="yes" rot="R180"/>
+<element name="SW49" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="31.75" smashed="yes" rot="R180"/>
+<element name="SW50" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="31.75" smashed="yes" rot="R180"/>
+<element name="SW51" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="31.75" smashed="yes" rot="R180"/>
+<element name="SW52" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="31.75" smashed="yes" rot="R180"/>
+<element name="SW53" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.7" y="28.45" smashed="yes" rot="R180"/>
+<element name="SW54" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.95" y="28.45" smashed="yes" rot="R180"/>
+<element name="SW55" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100.2" y="28.45" smashed="yes" rot="R180"/>
+<element name="SW56" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.45" y="28.45" smashed="yes" rot="R180"/>
+<element name="SW57" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.7" y="28.45" smashed="yes" rot="R180"/>
+<element name="SW58" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="82.95" y="28.45" smashed="yes" rot="R180"/>
+<element name="SW59" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.5" y="25.15" smashed="yes" rot="R180"/>
+<element name="SW60" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.75" y="25.15" smashed="yes" rot="R180"/>
+<element name="SW61" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100" y="25.15" smashed="yes" rot="R180"/>
+<element name="SW62" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.25" y="25.15" smashed="yes" rot="R180"/>
+<element name="SW63" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.5" y="25.15" smashed="yes" rot="R180"/>
+<element name="SW64" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="111.5" y="21.85" smashed="yes" rot="R180"/>
+<element name="SW65" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="105.75" y="21.85" smashed="yes" rot="R180"/>
+<element name="SW66" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="100" y="21.85" smashed="yes" rot="R180"/>
+<element name="SW67" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="94.25" y="21.85" smashed="yes" rot="R180"/>
+<element name="SW68" library="0 my parts" package="TVAU10-025" value="SW_4PTVAU10-025" x="88.5" y="21.85" smashed="yes" rot="R180"/>
+</elements>
+<signals>
+<signal name="GND">
+<wire x1="33" y1="38.15" x2="37" y2="37" width="0" layer="19" extent="1-1"/>
+<wire x1="27.25" y1="34.85" x2="33" y2="38.15" width="0" layer="19" extent="1-1"/>
+<wire x1="21.5" y1="34.85" x2="27.25" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="15.55" y1="28.25" x2="21.5" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="21.3" y1="24.95" x2="15.55" y2="28.25" width="0" layer="19" extent="1-1"/>
+<wire x1="21.3" y1="21.65" x2="21.3" y2="24.95" width="0" layer="19" extent="1-1"/>
+<wire x1="21.3" y1="18.35" x2="21.3" y2="21.65" width="0" layer="19" extent="1-1"/>
+<wire x1="27.05" y1="24.95" x2="21.3" y2="24.95" width="0" layer="19" extent="1-1"/>
+<wire x1="27.05" y1="18.35" x2="21.3" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="27.05" y1="15.05" x2="27.05" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="32.8" y1="18.35" x2="27.05" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="32.8" y1="21.65" x2="32.8" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="32.8" y1="15.05" x2="32.8" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="21.3" y1="11.75" x2="21.3" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="15.55" y1="11.75" x2="21.3" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="21.5" y1="5.15" x2="21.3" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="9.8" y1="15.05" x2="15.55" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="10" y1="34.85" x2="15.55" y2="28.25" width="0" layer="19" extent="1-1"/>
+<wire x1="3" y1="37" x2="10" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="10" y1="5.15" x2="15.55" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="3" y1="3" x2="10" y2="5.15" width="0" layer="19" extent="1-1"/>
+<wire x1="33" y1="1.85" x2="21.5" y2="5.15" width="0" layer="19" extent="1-1"/>
+<wire x1="37" y1="3" x2="33" y2="1.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R0">
+<contactref element="SW112" pad="P$3"/>
+<contactref element="SW111" pad="P$3"/>
+<contactref element="SW110" pad="P$3"/>
+<contactref element="SW109" pad="P$3"/>
+<contactref element="SW108" pad="P$3"/>
+<contactref element="SW107" pad="P$3"/>
+<contactref element="SW101" pad="P$1"/>
+<contactref element="SW102" pad="P$1"/>
+<contactref element="SW103" pad="P$1"/>
+<contactref element="SW105" pad="P$1"/>
+<contactref element="SW106" pad="P$1"/>
+<contactref element="SW104" pad="P$1"/>
+<wire x1="6.45" y1="55.9" x2="6.45" y2="59.2" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="52.6" x2="6.45" y2="55.9" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="49.3" x2="6.25" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="46" x2="6.25" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="42.7" x2="6.25" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="37.3" x2="6.25" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="34" x2="6.25" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="30.7" x2="6.25" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="6.25" y1="27.4" x2="6.25" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="6.45" y1="24.1" x2="6.25" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="7.5" y1="4.1" x2="6.45" y2="24.1" width="0" layer="19" extent="1-1"/>
+<wire x1="6.45" y1="20.8" x2="6.45" y2="24.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R1">
+<contactref element="SW124" pad="P$3"/>
+<contactref element="SW123" pad="P$3"/>
+<contactref element="SW122" pad="P$3"/>
+<contactref element="SW121" pad="P$3"/>
+<contactref element="SW120" pad="P$3"/>
+<contactref element="SW119" pad="P$3"/>
+<contactref element="SW118" pad="P$1"/>
+<contactref element="SW117" pad="P$1"/>
+<contactref element="SW116" pad="P$1"/>
+<contactref element="SW115" pad="P$1"/>
+<contactref element="SW114" pad="P$1"/>
+<contactref element="SW113" pad="P$1"/>
+<wire x1="12.2" y1="55.9" x2="12.2" y2="59.2" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="52.6" x2="12.2" y2="55.9" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="49.3" x2="12" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="46" x2="12" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="42.7" x2="12" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="37.3" x2="12" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="34" x2="12" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="30.7" x2="12" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="12" y1="27.4" x2="12" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="13.25" y1="5.3" x2="12" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="12.2" y1="24.1" x2="13.25" y2="5.3" width="0" layer="19" extent="1-1"/>
+<wire x1="12.2" y1="20.8" x2="12.2" y2="24.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R2">
+<contactref element="SW136" pad="P$3"/>
+<contactref element="SW135" pad="P$3"/>
+<contactref element="SW134" pad="P$3"/>
+<contactref element="SW133" pad="P$3"/>
+<contactref element="SW132" pad="P$3"/>
+<contactref element="SW131" pad="P$3"/>
+<contactref element="SW125" pad="P$1"/>
+<contactref element="SW126" pad="P$1"/>
+<contactref element="SW127" pad="P$1"/>
+<contactref element="SW128" pad="P$1"/>
+<contactref element="SW129" pad="P$1"/>
+<contactref element="SW130" pad="P$1"/>
+<wire x1="17.95" y1="55.9" x2="17.95" y2="59.2" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="52.6" x2="17.95" y2="55.9" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="49.3" x2="17.75" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="46" x2="17.75" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="42.7" x2="17.75" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="37.3" x2="17.75" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="34" x2="17.75" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="30.7" x2="17.75" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="27.4" x2="17.75" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="18.8" y1="7.4" x2="17.75" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="17.95" y1="24.1" x2="17.75" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="17.95" y1="20.8" x2="17.95" y2="24.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R3">
+<contactref element="SW148" pad="P$3"/>
+<contactref element="SW147" pad="P$3"/>
+<contactref element="SW146" pad="P$3"/>
+<contactref element="SW145" pad="P$3"/>
+<contactref element="SW144" pad="P$3"/>
+<contactref element="SW143" pad="P$3"/>
+<contactref element="SW142" pad="P$1"/>
+<contactref element="SW141" pad="P$1"/>
+<contactref element="SW140" pad="P$1"/>
+<contactref element="SW139" pad="P$1"/>
+<contactref element="SW138" pad="P$1"/>
+<contactref element="SW137" pad="P$1"/>
+<wire x1="23.7" y1="55.9" x2="23.7" y2="59.2" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="52.6" x2="23.7" y2="55.9" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="49.3" x2="23.5" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="46" x2="23.5" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="42.7" x2="23.5" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="37.3" x2="23.5" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="34" x2="23.5" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="30.7" x2="23.5" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="24.55" y1="10.7" x2="23.5" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="23.5" y1="27.4" x2="23.5" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="23.7" y1="24.1" x2="23.5" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="23.7" y1="20.8" x2="23.7" y2="24.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R4">
+<contactref element="SW160" pad="P$3"/>
+<contactref element="SW159" pad="P$3"/>
+<contactref element="SW158" pad="P$3"/>
+<contactref element="SW157" pad="P$3"/>
+<contactref element="SW156" pad="P$3"/>
+<contactref element="SW155" pad="P$3"/>
+<contactref element="SW154" pad="P$1"/>
+<contactref element="SW153" pad="P$1"/>
+<contactref element="SW152" pad="P$1"/>
+<contactref element="SW151" pad="P$1"/>
+<contactref element="SW150" pad="P$1"/>
+<contactref element="SW149" pad="P$1"/>
+<wire x1="29.45" y1="55.9" x2="29.45" y2="59.2" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="52.6" x2="29.45" y2="55.9" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="49.3" x2="29.25" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="46" x2="29.25" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="42.7" x2="29.25" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="37.3" x2="29.25" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="30.3" y1="17.3" x2="29.25" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="34" x2="29.25" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="30.7" x2="29.25" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="29.25" y1="27.4" x2="29.25" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="29.45" y1="24.1" x2="29.25" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="29.45" y1="20.8" x2="29.45" y2="24.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R5">
+<contactref element="SW170" pad="P$3"/>
+<contactref element="SW169" pad="P$3"/>
+<contactref element="SW168" pad="P$3"/>
+<contactref element="SW167" pad="P$3"/>
+<contactref element="SW166" pad="P$1"/>
+<contactref element="SW165" pad="P$1"/>
+<contactref element="SW164" pad="P$1"/>
+<contactref element="SW163" pad="P$1"/>
+<wire x1="35" y1="49.3" x2="35" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="35" y1="46" x2="35" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="35" y1="42.7" x2="35" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="35" y1="37.3" x2="35" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="36.05" y1="17.3" x2="35" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="35" y1="34" x2="35" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="35" y1="30.7" x2="35" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="35" y1="27.4" x2="35" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="13.9" y1="8.4" x2="35" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="14.25" y1="2.85" x2="13.9" y2="8.4" width="0" layer="19" extent="1-1"/>
+<wire x1="14.25" y1="37.15" x2="35" y2="52.6" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C0">
+<contactref element="SW112" pad="P$2"/>
+<contactref element="SW124" pad="P$1"/>
+<wire x1="8.35" y1="2.9" x2="8.15" y2="19.1" width="0" layer="19" extent="1-1"/>
+<wire x1="10.55" y1="22.9" x2="8.35" y2="2.9" width="0" layer="19" extent="1-1"/>
+<wire x1="12.2" y1="22.9" x2="10.55" y2="22.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C1">
+<contactref element="SW111" pad="P$2"/>
+<contactref element="SW123" pad="P$1"/>
+<wire x1="10.55" y1="26.2" x2="8.85" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="12.2" y1="26.2" x2="10.55" y2="26.2" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C2">
+<contactref element="SW122" pad="P$2"/>
+<contactref element="SW134" pad="P$1"/>
+<wire x1="15.05" y1="9.5" x2="16.1" y2="29.5" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="29.5" x2="16.1" y2="29.5" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C3">
+<contactref element="SW121" pad="P$2"/>
+<contactref element="SW133" pad="P$1"/>
+<wire x1="15.05" y1="12.8" x2="16.1" y2="32.8" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="32.8" x2="16.1" y2="32.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C4">
+<contactref element="SW120" pad="P$2"/>
+<contactref element="SW132" pad="P$1"/>
+<wire x1="15.05" y1="16.1" x2="16.1" y2="36.1" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="36.1" x2="16.1" y2="36.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C5">
+<contactref element="SW119" pad="P$2"/>
+<contactref element="SW131" pad="P$1"/>
+<wire x1="15.05" y1="19.4" x2="16.1" y2="39.4" width="0" layer="19" extent="1-1"/>
+<wire x1="17.75" y1="39.4" x2="16.1" y2="39.4" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C6">
+<contactref element="SW130" pad="P$3"/>
+<contactref element="SW118" pad="P$4"/>
+<wire x1="16.1" y1="40.6" x2="17.75" y2="40.6" width="0" layer="19" extent="1-1"/>
+<wire x1="15.05" y1="20.6" x2="16.1" y2="40.6" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C7">
+<contactref element="SW129" pad="P$3"/>
+<contactref element="SW117" pad="P$4"/>
+<wire x1="16.1" y1="43.9" x2="17.75" y2="43.9" width="0" layer="19" extent="1-1"/>
+<wire x1="15.05" y1="23.9" x2="16.1" y2="43.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C8">
+<contactref element="SW128" pad="P$3"/>
+<contactref element="SW116" pad="P$4"/>
+<wire x1="16.1" y1="47.2" x2="17.75" y2="47.2" width="0" layer="19" extent="1-1"/>
+<wire x1="15.05" y1="27.2" x2="16.1" y2="47.2" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C9">
+<contactref element="SW127" pad="P$3"/>
+<contactref element="SW115" pad="P$4"/>
+<wire x1="16.1" y1="50.5" x2="17.75" y2="50.5" width="0" layer="19" extent="1-1"/>
+<wire x1="15.05" y1="30.5" x2="16.1" y2="50.5" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C10">
+<contactref element="SW114" pad="P$3"/>
+<contactref element="SW102" pad="P$4"/>
+<wire x1="10.55" y1="53.8" x2="12.2" y2="53.8" width="0" layer="19" extent="1-1"/>
+<wire x1="8.85" y1="28.25" x2="10.55" y2="53.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C11">
+<contactref element="SW113" pad="P$3"/>
+<contactref element="SW101" pad="P$4"/>
+<wire x1="10.55" y1="57.1" x2="12.2" y2="57.1" width="0" layer="19" extent="1-1"/>
+<wire x1="8.35" y1="37.1" x2="10.55" y2="57.1" width="0" layer="19" extent="1-1"/>
+<wire x1="8.2" y1="27.4" x2="8.35" y2="37.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$1">
+<wire x1="19.9" y1="5.15" x2="19.65" y2="24.95" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$2">
+<wire x1="31.15" y1="21.65" x2="31.35" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="31.15" y1="15.05" x2="31.15" y2="21.65" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$3">
+<wire x1="25.4" y1="15.05" x2="25.4" y2="24.95" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$4">
+<wire x1="19.65" y1="28.25" x2="19.85" y2="34.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$5">
+<contactref element="SW123" pad="P$2"/>
+<contactref element="SW135" pad="P$1"/>
+<wire x1="16.3" y1="26.2" x2="17.95" y2="26.2" width="0" layer="19" extent="1-1"/>
+<wire x1="15.2" y1="5.3" x2="16.3" y2="26.2" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$7">
+<contactref element="SW114" pad="P$4"/>
+<contactref element="SW126" pad="P$3"/>
+<wire x1="16.3" y1="53.8" x2="17.95" y2="53.8" width="0" layer="19" extent="1-1"/>
+<wire x1="15.2" y1="34.7" x2="16.3" y2="53.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="GND1">
+<wire x1="76" y1="38.15" x2="80" y2="37" width="0" layer="19" extent="1-1"/>
+<wire x1="70.25" y1="34.85" x2="76" y2="38.15" width="0" layer="19" extent="1-1"/>
+<wire x1="64.5" y1="34.85" x2="70.25" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="58.55" y1="28.25" x2="64.5" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="64.3" y1="24.95" x2="58.55" y2="28.25" width="0" layer="19" extent="1-1"/>
+<wire x1="64.3" y1="21.65" x2="64.3" y2="24.95" width="0" layer="19" extent="1-1"/>
+<wire x1="64.3" y1="18.35" x2="64.3" y2="21.65" width="0" layer="19" extent="1-1"/>
+<wire x1="70.05" y1="24.95" x2="64.3" y2="24.95" width="0" layer="19" extent="1-1"/>
+<wire x1="70.05" y1="18.35" x2="64.3" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="70.05" y1="15.05" x2="70.05" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="75.8" y1="18.35" x2="70.05" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="75.8" y1="21.65" x2="75.8" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="75.8" y1="15.05" x2="75.8" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="64.3" y1="11.75" x2="64.3" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="58.55" y1="11.75" x2="64.3" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="64.5" y1="5.15" x2="64.3" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="52.8" y1="15.05" x2="58.55" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="53" y1="34.85" x2="58.55" y2="28.25" width="0" layer="19" extent="1-1"/>
+<wire x1="46" y1="37" x2="53" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="53" y1="5.15" x2="58.55" y2="11.75" width="0" layer="19" extent="1-1"/>
+<wire x1="46" y1="3" x2="53" y2="5.15" width="0" layer="19" extent="1-1"/>
+<wire x1="76" y1="1.85" x2="64.5" y2="5.15" width="0" layer="19" extent="1-1"/>
+<wire x1="80" y1="3" x2="76" y2="1.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R6">
+<contactref element="SW1" pad="P$3"/>
+<contactref element="SW6" pad="P$3"/>
+<contactref element="SW11" pad="P$3"/>
+<contactref element="SW17" pad="P$3"/>
+<contactref element="SW23" pad="P$3"/>
+<contactref element="SW29" pad="P$3"/>
+<contactref element="SW64" pad="P$1"/>
+<contactref element="SW59" pad="P$1"/>
+<contactref element="SW53" pad="P$1"/>
+<contactref element="SW41" pad="P$1"/>
+<contactref element="SW35" pad="P$1"/>
+<contactref element="SW47" pad="P$1"/>
+<wire x1="113.55" y1="24.1" x2="113.55" y2="20.8" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="27.4" x2="113.55" y2="24.1" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="30.7" x2="113.75" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="34" x2="113.75" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="37.3" x2="113.75" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="42.7" x2="113.75" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="46" x2="113.75" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="49.3" x2="113.75" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="113.75" y1="52.6" x2="113.75" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="113.55" y1="55.9" x2="113.75" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="50.5" y1="4.1" x2="113.55" y2="55.9" width="0" layer="19" extent="1-1"/>
+<wire x1="113.55" y1="59.2" x2="113.55" y2="55.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R7">
+<contactref element="SW2" pad="P$3"/>
+<contactref element="SW7" pad="P$3"/>
+<contactref element="SW12" pad="P$3"/>
+<contactref element="SW18" pad="P$3"/>
+<contactref element="SW24" pad="P$3"/>
+<contactref element="SW30" pad="P$3"/>
+<contactref element="SW36" pad="P$1"/>
+<contactref element="SW42" pad="P$1"/>
+<contactref element="SW48" pad="P$1"/>
+<contactref element="SW54" pad="P$1"/>
+<contactref element="SW60" pad="P$1"/>
+<contactref element="SW65" pad="P$1"/>
+<wire x1="107.8" y1="24.1" x2="107.8" y2="20.8" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="27.4" x2="107.8" y2="24.1" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="30.7" x2="108" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="34" x2="108" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="37.3" x2="108" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="42.7" x2="108" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="46" x2="108" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="49.3" x2="108" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="108" y1="52.6" x2="108" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="56.25" y1="5.3" x2="108" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="107.8" y1="55.9" x2="56.25" y2="5.3" width="0" layer="19" extent="1-1"/>
+<wire x1="107.8" y1="59.2" x2="107.8" y2="55.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R8">
+<contactref element="SW3" pad="P$3"/>
+<contactref element="SW8" pad="P$3"/>
+<contactref element="SW13" pad="P$3"/>
+<contactref element="SW19" pad="P$3"/>
+<contactref element="SW25" pad="P$3"/>
+<contactref element="SW31" pad="P$3"/>
+<contactref element="SW66" pad="P$1"/>
+<contactref element="SW61" pad="P$1"/>
+<contactref element="SW55" pad="P$1"/>
+<contactref element="SW49" pad="P$1"/>
+<contactref element="SW43" pad="P$1"/>
+<contactref element="SW37" pad="P$1"/>
+<wire x1="102.05" y1="24.1" x2="102.05" y2="20.8" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="27.4" x2="102.05" y2="24.1" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="30.7" x2="102.25" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="34" x2="102.25" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="37.3" x2="102.25" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="42.7" x2="102.25" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="46" x2="102.25" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="49.3" x2="102.25" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="52.6" x2="102.25" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="61.8" y1="7.4" x2="102.25" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="102.05" y1="55.9" x2="102.25" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="102.05" y1="59.2" x2="102.05" y2="55.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R9">
+<contactref element="SW4" pad="P$3"/>
+<contactref element="SW9" pad="P$3"/>
+<contactref element="SW14" pad="P$3"/>
+<contactref element="SW20" pad="P$3"/>
+<contactref element="SW26" pad="P$3"/>
+<contactref element="SW32" pad="P$3"/>
+<contactref element="SW38" pad="P$1"/>
+<contactref element="SW44" pad="P$1"/>
+<contactref element="SW50" pad="P$1"/>
+<contactref element="SW56" pad="P$1"/>
+<contactref element="SW62" pad="P$1"/>
+<contactref element="SW67" pad="P$1"/>
+<wire x1="96.3" y1="24.1" x2="96.3" y2="20.8" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="27.4" x2="96.3" y2="24.1" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="30.7" x2="96.5" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="34" x2="96.5" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="37.3" x2="96.5" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="42.7" x2="96.5" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="46" x2="96.5" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="49.3" x2="96.5" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="67.55" y1="10.7" x2="96.5" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="96.5" y1="52.6" x2="96.5" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="96.3" y1="55.9" x2="96.5" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="96.3" y1="59.2" x2="96.3" y2="55.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R10">
+<contactref element="SW5" pad="P$3"/>
+<contactref element="SW10" pad="P$3"/>
+<contactref element="SW15" pad="P$3"/>
+<contactref element="SW21" pad="P$3"/>
+<contactref element="SW27" pad="P$3"/>
+<contactref element="SW33" pad="P$3"/>
+<contactref element="SW39" pad="P$1"/>
+<contactref element="SW45" pad="P$1"/>
+<contactref element="SW51" pad="P$1"/>
+<contactref element="SW57" pad="P$1"/>
+<contactref element="SW63" pad="P$1"/>
+<contactref element="SW68" pad="P$1"/>
+<wire x1="90.55" y1="24.1" x2="90.55" y2="20.8" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="27.4" x2="90.55" y2="24.1" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="30.7" x2="90.75" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="34" x2="90.75" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="37.3" x2="90.75" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="42.7" x2="90.75" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="73.3" y1="17.3" x2="90.75" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="46" x2="90.75" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="49.3" x2="90.75" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="90.75" y1="52.6" x2="90.75" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="90.55" y1="55.9" x2="90.75" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="90.55" y1="59.2" x2="90.55" y2="55.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="R11">
+<contactref element="SW16" pad="P$3"/>
+<contactref element="SW22" pad="P$3"/>
+<contactref element="SW28" pad="P$3"/>
+<contactref element="SW34" pad="P$3"/>
+<contactref element="SW40" pad="P$1"/>
+<contactref element="SW46" pad="P$1"/>
+<contactref element="SW52" pad="P$1"/>
+<contactref element="SW58" pad="P$1"/>
+<wire x1="85" y1="30.7" x2="85" y2="27.4" width="0" layer="19" extent="1-1"/>
+<wire x1="85" y1="34" x2="85" y2="30.7" width="0" layer="19" extent="1-1"/>
+<wire x1="85" y1="37.3" x2="85" y2="34" width="0" layer="19" extent="1-1"/>
+<wire x1="85" y1="42.7" x2="85" y2="37.3" width="0" layer="19" extent="1-1"/>
+<wire x1="79.05" y1="17.3" x2="85" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="85" y1="46" x2="85" y2="42.7" width="0" layer="19" extent="1-1"/>
+<wire x1="85" y1="49.3" x2="85" y2="46" width="0" layer="19" extent="1-1"/>
+<wire x1="85" y1="52.6" x2="85" y2="49.3" width="0" layer="19" extent="1-1"/>
+<wire x1="56.9" y1="8.4" x2="85" y2="52.6" width="0" layer="19" extent="1-1"/>
+<wire x1="57.25" y1="2.85" x2="56.9" y2="8.4" width="0" layer="19" extent="1-1"/>
+<wire x1="57.25" y1="37.15" x2="85" y2="27.4" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C12">
+<contactref element="SW1" pad="P$2"/>
+<contactref element="SW2" pad="P$1"/>
+<wire x1="51.35" y1="2.9" x2="51.15" y2="19.1" width="0" layer="19" extent="1-1"/>
+<wire x1="109.45" y1="57.1" x2="51.35" y2="2.9" width="0" layer="19" extent="1-1"/>
+<wire x1="107.8" y1="57.1" x2="109.45" y2="57.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C13">
+<contactref element="SW6" pad="P$2"/>
+<contactref element="SW7" pad="P$1"/>
+<wire x1="109.45" y1="53.8" x2="51.85" y2="18.35" width="0" layer="19" extent="1-1"/>
+<wire x1="107.8" y1="53.8" x2="109.45" y2="53.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C14">
+<contactref element="SW12" pad="P$2"/>
+<contactref element="SW13" pad="P$1"/>
+<wire x1="58.05" y1="9.5" x2="103.9" y2="50.5" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="50.5" x2="103.9" y2="50.5" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C15">
+<contactref element="SW18" pad="P$2"/>
+<contactref element="SW19" pad="P$1"/>
+<wire x1="58.05" y1="12.8" x2="103.9" y2="47.2" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="47.2" x2="103.9" y2="47.2" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C16">
+<contactref element="SW24" pad="P$2"/>
+<contactref element="SW25" pad="P$1"/>
+<wire x1="58.05" y1="16.1" x2="103.9" y2="43.9" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="43.9" x2="103.9" y2="43.9" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C17">
+<contactref element="SW30" pad="P$2"/>
+<contactref element="SW31" pad="P$1"/>
+<wire x1="58.05" y1="19.4" x2="103.9" y2="40.6" width="0" layer="19" extent="1-1"/>
+<wire x1="102.25" y1="40.6" x2="103.9" y2="40.6" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C18">
+<contactref element="SW37" pad="P$3"/>
+<contactref element="SW36" pad="P$4"/>
+<wire x1="103.9" y1="39.4" x2="102.25" y2="39.4" width="0" layer="19" extent="1-1"/>
+<wire x1="58.05" y1="20.6" x2="103.9" y2="39.4" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C19">
+<contactref element="SW43" pad="P$3"/>
+<contactref element="SW42" pad="P$4"/>
+<wire x1="103.9" y1="36.1" x2="102.25" y2="36.1" width="0" layer="19" extent="1-1"/>
+<wire x1="58.05" y1="23.9" x2="103.9" y2="36.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C20">
+<contactref element="SW49" pad="P$3"/>
+<contactref element="SW48" pad="P$4"/>
+<wire x1="103.9" y1="32.8" x2="102.25" y2="32.8" width="0" layer="19" extent="1-1"/>
+<wire x1="58.05" y1="27.2" x2="103.9" y2="32.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C21">
+<contactref element="SW55" pad="P$3"/>
+<contactref element="SW54" pad="P$4"/>
+<wire x1="103.9" y1="29.5" x2="102.25" y2="29.5" width="0" layer="19" extent="1-1"/>
+<wire x1="58.05" y1="30.5" x2="103.9" y2="29.5" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C22">
+<contactref element="SW60" pad="P$3"/>
+<contactref element="SW59" pad="P$4"/>
+<wire x1="109.45" y1="26.2" x2="107.8" y2="26.2" width="0" layer="19" extent="1-1"/>
+<wire x1="51.85" y1="28.25" x2="109.45" y2="26.2" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="C23">
+<contactref element="SW65" pad="P$3"/>
+<contactref element="SW64" pad="P$4"/>
+<wire x1="109.45" y1="22.9" x2="107.8" y2="22.9" width="0" layer="19" extent="1-1"/>
+<wire x1="51.35" y1="37.1" x2="109.45" y2="22.9" width="0" layer="19" extent="1-1"/>
+<wire x1="51.2" y1="27.4" x2="51.35" y2="37.1" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$65">
+<wire x1="62.9" y1="5.15" x2="62.65" y2="24.95" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$66">
+<wire x1="74.15" y1="21.65" x2="74.35" y2="34.85" width="0" layer="19" extent="1-1"/>
+<wire x1="74.15" y1="15.05" x2="74.15" y2="21.65" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$67">
+<wire x1="68.4" y1="15.05" x2="68.4" y2="24.95" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$69">
+<wire x1="62.65" y1="28.25" x2="62.85" y2="34.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$94">
+<contactref element="SW7" pad="P$2"/>
+<contactref element="SW8" pad="P$1"/>
+<wire x1="58.2" y1="5.3" x2="103.7" y2="53.8" width="0" layer="19" extent="1-1"/>
+<wire x1="102.05" y1="53.8" x2="103.7" y2="53.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$96">
+<contactref element="SW60" pad="P$4"/>
+<contactref element="SW61" pad="P$3"/>
+<wire x1="58.2" y1="34.7" x2="103.7" y2="26.2" width="0" layer="19" extent="1-1"/>
+<wire x1="102.05" y1="26.2" x2="103.7" y2="26.2" width="0" layer="19" extent="1-1"/>
+</signal>
+</signals>
+<mfgpreviewcolors>
+<mfgpreviewcolor name="soldermaskcolor" color="0xC8008000"/>
+<mfgpreviewcolor name="silkscreencolor" color="0xFFFEFEFE"/>
+<mfgpreviewcolor name="backgroundcolor" color="0xFF282828"/>
+<mfgpreviewcolor name="coppercolor" color="0xFFFFBF00"/>
+<mfgpreviewcolor name="substratecolor" color="0xFF786E46"/>
+</mfgpreviewcolors>
+</board>
+</drawing>
+</eagle>

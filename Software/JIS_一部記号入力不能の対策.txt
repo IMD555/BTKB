@@ -1,0 +1,21 @@
+﻿WindowsはAlt Codeで対応
+
+
+
+
+
+
+
+以下、関係ないメモ
+IME ONにして、
+\005c
+|007c
+¥00a5
+_005f
+
+Fnで全角
+｜ff5c
+＿ff3f
+￥ffe5
+
+F5→Enterで変換
